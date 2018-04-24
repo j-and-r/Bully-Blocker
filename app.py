@@ -1,8 +1,8 @@
 from flask import Flask, render_template
+import tweepy
 
 tweet = "i hate you"
 words = open("mean-words.txt", "r").read().splitlines()
-print (words)
 wordcount = 0
 
 app = Flask(__name__)
