@@ -16,8 +16,6 @@ def meanDetector():
     ratio = str(round(meancount/wordcount*100, 2))
     return ratio
 
-print(str(meanDetector()) + "%")
-
 @app.route("/")
 def index():
     return render_template("index.html")
