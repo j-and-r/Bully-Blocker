@@ -1,7 +1,8 @@
 from flask import Flask, render_template
 
 tweet = "i hate you"
-words = ["hate", "idiot", "stupid"]
+words = open("mean-words.txt", "r").read().splitlines()
+print (words)
 wordcount = 0
 
 app = Flask(__name__)
@@ -12,7 +13,7 @@ def meanDetector():
     for word in words:
         if word in tweet:
             meancount += 1
-    ratio = meancount/wordcount*100
+    ratio = str(round(meancount/wordcount*100, 2))
     return ratio
 
 print(str(meanDetector()) + "%")
