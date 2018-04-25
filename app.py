@@ -1,13 +1,27 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, session, request
+from flask_session import Session
 import tweepy
+from helper import *
 
 app = Flask(__name__)
-twitter_feed()
+
+SESSION_TYPE = 'redis'
+app.config.from_object(__name__)
+Session(app)
 
 wordcount = 0
-
 p_words = set()
 n_words = set()
+
+secret_file = open("twitter.txt", "r")
+secret = secret_file.read().splitlines()
+secret_file.close()
+
+consumer_key = secret[0]
+consumer_secret = secret[1]
+
+s = "i hate you"
+
 def load_words():
     n_file = open("dicts/negative.txt", "r")
     p_file = open("dicts/positive.txt", "r")
@@ -22,39 +36,55 @@ def load_words():
             n_words.add(line.rstrip("\n"))
     n_file.close()
 
-def meanDetector(tweet):
-    string = tweet.lower()
-    meancount = 0
-    wordcount = len(tweet.split(" "))
-    words = string.split(" ")
-    for word in words:
-        if word in n_words:
-            meancount += 1
-    ratio = str(round(meancount/wordcount*100, 1))
-    return ratio
-
-
-consumer_key = "BoWItkr5SlaiUNydLc5mQx9Ub"
-consumer_secret = "pwuSvZNLGyZjfm1fBLUBYobzaFpO4bv29TwwagcAvgB2hn8Lfk"
-def twitter_feed():
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-
-    api = tweepy.API(auth)
-
-    public_tweets = api.home_timeline()
-    for tweet in public_tweets:
-        s = tweet.text
-
 load_words()
-print(str(meanDetector(s)) + "%")
+print(meanDetector(s, n_words))
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
 @app.route("/sign-in")
-def signIn():
-    return "Sign In"
+def sign_in():
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+
+    try:
+        redirect_url = auth.get_authorization_url()
+    except tweepy.TweepError:
+        return 'Error! Failed to get request token.'
+
+    session['request_token'] = auth.request_token
+    return redirect(redirect_url, code=302)
+
+@app.route("/twitter-callback")
+def twitter_callback():
+    if not 'request_token' in session:
+        return redirect('/sign-in')
+
+    verifier = request.args.get('oauth_verifier')
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    token = session.get('request_token')
+    session.delete('request_token')
+    auth.request_token = token
+
+    try:
+        auth.get_access_token(verifier)
+    except tweepy.TweepError:
+        return "error"
+
+    session['access_token'] = auth.access_token
+    session['access_secret'] = auth.access_token_secret
+
+    return redirect("/feed")
+
+@app.route("/feed")
+def feed():
+    token = session['access_token']
+    secret = session['access_secret']
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(key, secret)
+
+    feed = twitter_feed(auth)
+    return str(feed)
 
 app.run(host="0.0.0.0", port=5000)
