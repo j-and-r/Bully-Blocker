@@ -2,7 +2,6 @@ from flask import Flask, render_template
 import tweepy
 
 app = Flask(__name__)
-twitter_feed()
 
 wordcount = 0
 
@@ -32,19 +31,6 @@ def meanDetector(tweet):
             meancount += 1
     ratio = str(round(meancount/wordcount*100, 1))
     return ratio
-
-
-consumer_key = "BoWItkr5SlaiUNydLc5mQx9Ub"
-consumer_secret = "pwuSvZNLGyZjfm1fBLUBYobzaFpO4bv29TwwagcAvgB2hn8Lfk"
-def twitter_feed():
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-
-    api = tweepy.API(auth)
-
-    public_tweets = api.home_timeline()
-    for tweet in public_tweets:
-        s = tweet.text
 
 load_words()
 print(str(meanDetector(s)) + "%")
