@@ -92,4 +92,8 @@ def test():
 def sign_up():
     return render_template("sign-up.html")
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 app.run(host="0.0.0.0", port=5000)
