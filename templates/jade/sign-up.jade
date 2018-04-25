@@ -1,4 +1,4 @@
-//output:../sign-in.html
+//output:../sign-up.html
 html
   head
     link(rel="stylesheet", href="./static/sign-in.min.css")
@@ -14,12 +14,12 @@ html
         a.flat-button(href="/sign_in") Sign In
 
   .sign_in_wrap
-    h1 Sign In
+    h1 Sign Up
     form
       input(placeholder="username")
+      input(placeholder="email")
       input(placeholder="password", type="password")
+      input(placeholder="confirm password", type+"password")
       div.button-wrap
-        a.button(type="submit") Sign In
-      p else sign up #[a(href="/sign_up") here]
-      
-      
+        a.button(type="submit") Sign Up
+      p already have an account? login #[a(href="/sign_in") here]

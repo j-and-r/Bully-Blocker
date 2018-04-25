@@ -45,7 +45,7 @@ print(meanDetector(s, n_words))
 def index():
     return render_template("index.html")
 
-@app.route("/sign-in")
+@app.route("/Twitter-auth")
 def sign_in():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
@@ -89,8 +89,12 @@ def feed():
     feed = twitter_feed(auth)
     return str(feed)
 
-@app.route("/test")
+@app.route("/sign_in")
 def test():
     return render_template("sign-in.html")
+
+@app.route("/sign_up")
+def sign_up():
+    return render_template("sign-up.html")
 
 app.run(host="0.0.0.0", port=5000)
