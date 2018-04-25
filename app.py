@@ -87,4 +87,8 @@ def feed():
     feed = twitter_feed(auth)
     return str(feed)
 
+@app.route("/test")
+def test():
+    return render_template("sign-in.html")
+
 app.run(host="0.0.0.0", port=5000)

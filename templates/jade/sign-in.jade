@@ -1,0 +1,23 @@
+//output:../sign-in.html
+html
+  head
+    link(rel="stylesheet", href="./static/sign-in.min.css")
+    title Sign In | Bully Blocker
+  body
+  nav
+    ul.nav-items
+      li
+        img.nav-logo(src="static/icons/logo.png")
+      li 
+        a.flat-button(href="/") Home
+      li 
+        a.flat-button(href="/sign-in") Sign In
+
+  .sign_in_wrap
+    h1 Sign In
+    form
+      input(placeholder="username")
+      input(placeholder="password", type="password")
+      div.button-wrap
+        a.button(type="submit") Sign In
+      
