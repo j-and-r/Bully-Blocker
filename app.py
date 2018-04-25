@@ -22,8 +22,6 @@ secret_file.close()
 consumer_key = secret[0]
 consumer_secret = secret[1]
 
-s = "i hate you"
-
 def load_words():
     n_file = open("dicts/negative.txt", "r")
     p_file = open("dicts/positive.txt", "r")
@@ -37,9 +35,6 @@ def load_words():
         if line[0] != ";" and line != "":
             n_words.add(line.rstrip("\n"))
     n_file.close()
-
-load_words()
-print(meanDetector(s, n_words))
 
 @app.route("/")
 def index():
