@@ -2,8 +2,10 @@ from flask import Flask, render_template, redirect, session, request
 from flask_session import Session
 import tweepy
 from helper import *
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
