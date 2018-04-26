@@ -74,7 +74,7 @@ def twitter_callback():
     return redirect("/Getfeed")
 
 @app.route("/Getfeed")
-def feed():
+def Getfeed():
     token = session['access_token']
     secret = session['access_secret']
 
@@ -97,7 +97,7 @@ def about():
     return render_template("about.html")
 
 @app.route("/feed")
-def about():
+def feed():
     return render_template("feed.html")
 
 app.run(host="0.0.0.0", port=5000)
