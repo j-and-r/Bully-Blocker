@@ -1,0 +1,22 @@
+//output:../feed.html
+html
+  head
+    link(rel="stylesheet", href="./static/index.min.css")
+    title Feed
+  body
+    //- include ./components/nav.jade
+    nav
+      ul.nav-items
+        li
+          img.nav-logo(src="static/icons/logo.png")
+        li 
+          a.flat-button Home
+        li 
+          a.flat-button(href="sign_in") Sign In
+    .wrap
+      h1 Feed
+      img(src="./static/images/sign-in.jpg", height="1000%", width="70%px", style="margin:auto")
+    .footer
+      .content
+        p
+          a(href="/about") about
