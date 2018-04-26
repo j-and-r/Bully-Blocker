@@ -4,22 +4,15 @@ html
     link(rel="stylesheet", href="./static/sign-in.min.css")
     title Sign In | Bully Blocker
   body
-  nav
-    ul.nav-items
-      li
-        img.nav-logo(src="static/icons/logo.png")
-      li 
-        a.flat-button(href="/") Home
-      li 
-        a.flat-button(href="/sign_in") Sign In
-
-  .sign_in_wrap
-    h1 Sign Up
-    form
-      input(placeholder="username")
-      input(placeholder="email")
-      input(placeholder="password", type="password")
-      input(placeholder="confirm password", type+"password")
-      div.button-wrap
-        a.button(type="submit") Sign Up
-      p already have an account? login #[a(href="/sign_in") here]
+    include ./components/nav.jade
+    .sign_in_wrap
+      h1 Sign Up
+      form
+        input(placeholder="username")
+        input(placeholder="email")
+        input(placeholder="password", type="password")
+        input(placeholder="confirm password", type+"password")
+        div.button-wrap
+          a.button(type="submit") Sign Up
+        p 
+          a(href="/sign_in") Already have an account?
