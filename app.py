@@ -40,7 +40,7 @@ def load_words():
 def index():
     return render_template("index.html")
 
-@app.route("/Twitter-auth")
+@app.route("/twitter_auth")
 def sign_in():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
@@ -52,7 +52,7 @@ def sign_in():
     session['request_token'] = auth.request_token
     return redirect(redirect_url, code=302)
 
-@app.route("/twitter-callback")
+@app.route("/twitter_callback")
 def twitter_callback():
     if not 'request_token' in session:
         return redirect('/sign-in')
@@ -71,9 +71,9 @@ def twitter_callback():
     session['access_token'] = auth.access_token
     session['access_secret'] = auth.access_token_secret
 
-    return redirect("/Getfeed")
+    return redirect("/get_feed")
 
-@app.route("/Getfeed")
+@app.route("/get_feed")
 def Getfeed():
     token = session['access_token']
     secret = session['access_secret']

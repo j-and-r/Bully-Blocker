@@ -1,14 +1,21 @@
 //output:../feed.html
 html
   head
-    link(rel="stylesheet", href="./static/index.min.css")
+    link(rel="stylesheet", href="./static/feed.min.css")
     title Feed
   body
     include ./components/nav.jade
     .wrap
       h1 Feed
-      img(src="./static/images/sign-in.jpg", height="1000%", width="70%px", style="margin:auto")
-    .footer
-      .content
-        p
-          a(href="/about") about
+      .post.row 
+        .post-margin.col.col--2-of-16
+          img.profile-img(src="http://icons.iconarchive.com/icons/martz90/circle-addon1/512/cnn-icon.png")
+        .post-body.col.col--14-of-16
+          .head
+            p.profile-name CNN
+            br
+            p.date Tues, 3rd April - 2018
+          p Apple security is top-notch. Here's why Windows will never be as secure as apple
+            a(href="/")  http://t.co/aJhd8ds3fjH
+          img.post-img(src="./static/images/sign-in.jpg")
+    include ./components/footer.jade
