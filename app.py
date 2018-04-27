@@ -99,4 +99,4 @@ def about():
 def feed():
     return render_template("feed.html")
 
-app.run(host="0.0.0.0", port=5000)
+app.run(host="0.0.0.0", port=8080)
