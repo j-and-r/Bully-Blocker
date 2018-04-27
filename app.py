@@ -3,6 +3,7 @@ from flask_session import Session
 import tweepy
 from helper import *
 import os
+import redis
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
