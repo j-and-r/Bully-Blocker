@@ -7,6 +7,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+SESSION_REDIS = redis.from_url(os.environ.get("REDIS_URL", "127.0.0.1:6379"))
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
