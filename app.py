@@ -17,6 +17,7 @@ n_words = set()
 
 consumer_key = os.environ['TWITTER_KEY']
 consumer_secret = os.environ['TWITTER_SECRET']
+port = int(os.environ.get('PORT', 5000))
 
 print(consumer_key)
 print(consumer_secret)
@@ -99,4 +100,4 @@ def about():
 def feed():
     return render_template("feed.html")
 
-app.run(host="0.0.0.0", port=33507)
+app.run(host="0.0.0.0", port=port)
