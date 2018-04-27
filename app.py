@@ -100,4 +100,8 @@ def about():
 def feed():
     return render_template("feed.html")
 
+@app.route("/generate-password")
+def gen_pword():
+    return generate_password()
+
 app.run(host="0.0.0.0", port=5000)
