@@ -15,12 +15,11 @@ wordcount = 0
 p_words = set()
 n_words = set()
 
-secret_file = open("twitter.txt", "r")
-secret = secret_file.read().splitlines()
-secret_file.close()
+consumer_key = os.environ['TWITTER_KEY']
+consumer_secret = os.environ['TWITTER_SECRET']
 
-consumer_key = secret[0]
-consumer_secret = secret[1]
+print(consumer_key)
+print(consumer_secret)
 
 def load_words():
     n_file = open("dicts/negative.txt", "r")
