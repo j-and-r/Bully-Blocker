@@ -8,7 +8,8 @@ import redis
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-SESSION_REDIS = redis.from_url(os.environ.get("REDIS_URL", "127.0.0.1:6379"))
+print(os.environ.get("REDIS_URL", "127.0.0.1:6379"))
+SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
