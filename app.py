@@ -63,7 +63,7 @@ def twitter_callback():
     verifier = request.args.get('oauth_verifier')
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     token = session.get('request_token')
-    session.delete('request_token')
+    session.pop('request_token')
     auth.request_token = token
 
     try:
@@ -78,7 +78,7 @@ def twitter_callback():
 
 @app.route("/get_feed")
 def Getfeed():
-    token = session['access_token']
+    key = session['access_token']
     secret = session['access_secret']
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
