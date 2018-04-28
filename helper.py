@@ -1,3 +1,5 @@
+import tweepy
+
 def twitter_feed(auth):
 
     api = tweepy.API(auth)
