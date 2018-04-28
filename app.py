@@ -4,6 +4,7 @@ import tweepy
 from helper import *
 import os
 import redis
+import datetime
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -113,9 +114,7 @@ def feed():
     feed = twitter_feed(auth)
     tweet = feed[0]
     date = tweet.created_at
-    print(str(date))
-    date = str(date).split(" ")
-    date = date[0] + ", " + date[2] + " " + date[1] + " " + date[4]
+    date = date.strftime('%A, %b %Y')
     return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.profile_image_url, date=date)
 
 @app.route("/generate-password")
