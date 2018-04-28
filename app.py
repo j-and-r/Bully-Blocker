@@ -115,7 +115,7 @@ def feed():
     tweet = feed[0]
     date = tweet.created_at
     date = date.strftime('%A, %b %Y')
-    return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.profile_image_url, date=date)
+    return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.user.profile_image_url, date=date)
 
 @app.route("/generate-password")
 def gen_pword():
