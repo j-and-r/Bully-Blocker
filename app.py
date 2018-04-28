@@ -77,7 +77,7 @@ def twitter_callback():
     return redirect("/get_feed")
 
 @app.route("/get_feed")
-def Getfeed():
+def get_feed():
     key = session['access_token']
     secret = session['access_secret']
 
@@ -101,7 +101,14 @@ def about():
 
 @app.route("/feed")
 def feed():
-    return render_template("feed.html")
+    key = session['access_token']
+    secret = session['access_secret']
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(key, secret)
+
+    feed = twitter_feed(auth)
+    return render_template("feed.html", name=feed[0].user.name, body=feed[0].text)
 
 @app.route("/generate-password")
 def gen_pword():

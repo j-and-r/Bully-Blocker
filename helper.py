@@ -5,11 +5,7 @@ def twitter_feed(auth):
 
     api = tweepy.API(auth)
 
-    public_tweets = api.home_timeline()
-    tweets = []
-    for tweet in public_tweets:
-        s = tweet.text
-        tweets.append(s)
+    tweets = api.home_timeline()
     return tweets
 
 def meanDetector(tweet, n_words):
