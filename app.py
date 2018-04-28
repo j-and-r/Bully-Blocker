@@ -9,7 +9,6 @@ import datetime
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-print(os.environ.get("REDIS_URL", "127.0.0.1:6379"))
 SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
@@ -59,7 +58,7 @@ def sign_in():
 @app.route("/twitter_callback")
 def twitter_callback():
     if not 'request_token' in session:
-        return redirect('/sign-in')
+        return redirect('/twitter_auth')
 
     verifier = request.args.get('oauth_verifier')
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -79,6 +78,8 @@ def twitter_callback():
 
 @app.route("/get_feed")
 def get_feed():
+    if not 'access_token' in session or not 'access_secret' in session:
+        return redirect('/twitter_auth')
     key = session['access_token']
     secret = session['access_secret']
 
@@ -105,6 +106,8 @@ def about():
 
 @app.route("/feed")
 def feed():
+    if not 'access_token' in session or not 'access_secret' in session:
+        return redirect('/twitter_auth')
     key = session['access_token']
     secret = session['access_secret']
 
