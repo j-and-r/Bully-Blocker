@@ -74,7 +74,7 @@ def twitter_callback():
     session['access_token'] = auth.access_token
     session['access_secret'] = auth.access_token_secret
 
-    return redirect("/get_feed")
+    return redirect("/feed")
 
 @app.route("/get_feed")
 def get_feed():
@@ -85,7 +85,10 @@ def get_feed():
     auth.set_access_token(key, secret)
 
     feed = twitter_feed(auth)
-    return str(feed)
+    tweets = []
+    for tweet in feed:
+        tweets.append(tweet.text)
+    return str(tweet)
 
 @app.route("/sign_in")
 def test():
@@ -108,7 +111,12 @@ def feed():
     auth.set_access_token(key, secret)
 
     feed = twitter_feed(auth)
-    return render_template("feed.html", name=feed[0].user.name, body=feed[0].text)
+    tweet = feed[0]
+    date = tweet.created_at
+    date = date.split(" ")
+    date = date[0] + ", " + date[2] + " " + date[1] + " " + date[5]
+    Saturday, 28 April 2018
+    return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.profile_image_url, date=date)
 
 @app.route("/generate-password")
 def gen_pword():
