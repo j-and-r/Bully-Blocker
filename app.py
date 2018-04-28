@@ -115,10 +115,19 @@ def feed():
     auth.set_access_token(key, secret)
 
     feed = twitter_feed(auth)
-    tweet = feed[0]
-    date = tweet.created_at
-    date = date.strftime('%A, %b %Y')
-    return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.user.profile_image_url, date=date)
+    tweets = []
+    for tweet in feed:
+        date = tweet.created_at.strftime('%A, %b %Y')
+        username = tweet.user.name
+        profile_pic = tweet.user.profile_image_url
+        body = tweet.text
+        tweets.append({
+            "date": date,
+            "username": username,
+            "profile_pic": profile_pic,
+            "body": body
+        })
+    return render_template("feed.html", tweets=tweets)
 
 @app.route("/generate-password")
 def gen_pword():
