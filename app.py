@@ -113,8 +113,9 @@ def feed():
     feed = twitter_feed(auth)
     tweet = feed[0]
     date = tweet.created_at
+    print(str(date))
     date = str(date).split(" ")
-    date = date[0] + ", " + date[2] + " " + date[1] + " " + date[5]
+    date = date[0] + ", " + date[2] + " " + date[1] + " " + date[4]
     return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.profile_image_url, date=date)
 
 @app.route("/generate-password")
