@@ -115,7 +115,6 @@ def feed():
     date = tweet.created_at
     date = date.split(" ")
     date = date[0] + ", " + date[2] + " " + date[1] + " " + date[5]
-    Saturday, 28 April 2018
     return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.profile_image_url, date=date)
 
 @app.route("/generate-password")
