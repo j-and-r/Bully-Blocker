@@ -9,21 +9,20 @@ import datetime
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
+# WARNING: Setting up Redis session:
+# SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
 
-wordcount = 0
+# WARNING: Setting up dictionaries
 p_words = set()
 n_words = set()
 
+# WARNING: Fetching env vars
 consumer_key = os.environ['TWITTER_KEY']
 consumer_secret = os.environ['TWITTER_SECRET']
 port = int(os.environ.get('PORT', 5000))
-
-print(consumer_key)
-print(consumer_secret)
 
 def load_words():
     n_file = open("dicts/negative.txt", "r")
@@ -39,9 +38,29 @@ def load_words():
             n_words.add(line.rstrip("\n"))
     n_file.close()
 
+# WARNING: Pages that don't require users to have account:
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/sign_in")
+def test():
+    return render_template("sign-in.html")
+
+@app.route("/sign_up")
+def sign_up():
+    return render_template("sign-up.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/generate-password")
+def gen_pword():
+    return generate_password()
+
+# WARNING: Twitter:
 
 @app.route("/twitter_auth")
 def sign_in():
@@ -76,33 +95,7 @@ def twitter_callback():
 
     return redirect("/feed")
 
-@app.route("/get_feed")
-def get_feed():
-    if not 'access_token' in session or not 'access_secret' in session:
-        return redirect('/twitter_auth')
-    key = session['access_token']
-    secret = session['access_secret']
-
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(key, secret)
-
-    feed = twitter_feed(auth)
-    tweets = []
-    for tweet in feed:
-        tweets.append(tweet.text)
-    return str(tweet)
-
-@app.route("/sign_in")
-def test():
-    return render_template("sign-in.html")
-
-@app.route("/sign_up")
-def sign_up():
-    return render_template("sign-up.html")
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
+# WARNING: Front end for logged in users:
 
 @app.route("/feed")
 def feed():
@@ -129,8 +122,20 @@ def feed():
         })
     return render_template("feed.html", tweets=tweets)
 
-@app.route("/generate-password")
-def gen_pword():
-    return generate_password()
-
 app.run(host="0.0.0.0", port=port)
+
+# @app.route("/get_feed")
+# def get_feed():
+#     if not 'access_token' in session or not 'access_secret' in session:
+#         return redirect('/twitter_auth')
+#     key = session['access_token']
+#     secret = session['access_secret']
+#
+#     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+#     auth.set_access_token(key, secret)
+#
+#     feed = twitter_feed(auth)
+#     tweets = []
+#     for tweet in feed:
+#         tweets.append(tweet.text)
+#     return str(tweet)
