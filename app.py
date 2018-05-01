@@ -60,6 +60,10 @@ def about():
 def gen_pword():
     return generate_password()
 
+@app.route("/title")
+def title():
+    return render_template("steering.html")
+
 # WARNING: Twitter:
 
 @app.route("/twitter_auth")
@@ -121,14 +125,6 @@ def feed():
             "body": body
         })
     return render_template("feed.html", tweets=tweets)
-
-@app.route("/generate-password")
-def gen_pword():
-    return generate_password()
-
-@app.route("/title")
-def title():
-    return render_template("steering.html")
 
 app.run(host="0.0.0.0", port=port)
 
