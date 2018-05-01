@@ -9,8 +9,12 @@ import datetime
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+<<<<<<< HEAD
 print(os.environ.get("REDIS_URL", "127.0.0.1:6379"))
 # SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
+=======
+SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
+>>>>>>> 613beb0e4f20b0b85948527f61d9710de6d8bf7d
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
@@ -59,7 +63,7 @@ def sign_in():
 @app.route("/twitter_callback")
 def twitter_callback():
     if not 'request_token' in session:
-        return redirect('/sign-in')
+        return redirect('/twitter_auth')
 
     verifier = request.args.get('oauth_verifier')
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -79,6 +83,8 @@ def twitter_callback():
 
 @app.route("/get_feed")
 def get_feed():
+    if not 'access_token' in session or not 'access_secret' in session:
+        return redirect('/twitter_auth')
     key = session['access_token']
     secret = session['access_secret']
 
@@ -105,6 +111,8 @@ def about():
 
 @app.route("/feed")
 def feed():
+    if not 'access_token' in session or not 'access_secret' in session:
+        return redirect('/twitter_auth')
     key = session['access_token']
     secret = session['access_secret']
 
@@ -112,10 +120,19 @@ def feed():
     auth.set_access_token(key, secret)
 
     feed = twitter_feed(auth)
-    tweet = feed[0]
-    date = tweet.created_at
-    date = date.strftime('%A, %b %Y')
-    return render_template("feed.html", name=tweet.user.name, body=tweet.text, profile_pic=tweet.user.profile_image_url, date=date)
+    tweets = []
+    for tweet in feed:
+        date = tweet.created_at.strftime('%A, %b %Y')
+        username = tweet.user.name
+        profile_pic = tweet.user.profile_image_url
+        body = tweet.text
+        tweets.append({
+            "date": date,
+            "username": username,
+            "profile_pic": profile_pic,
+            "body": body
+        })
+    return render_template("feed.html", tweets=tweets)
 
 @app.route("/generate-password")
 def gen_pword():
