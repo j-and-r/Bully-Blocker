@@ -1,13 +1,17 @@
 //output:../index.html
 html
   head
+    script(language="javascript", type="text/javascript", src="./static/p5/p5.js")
+    script(language="javascript", type="text/javascript", src="./static/SteeringBehaviours/sketch.js")
+    script(language="javascript", type="text/javascript", src="./static/SteeringBehaviours/vehicle.js")
     link(rel="stylesheet", href="./static/index.min.css")
     title Bully Blocker
   body
     include ./components/sidenav.jade
     include ./components/nav.jade
     .wrap
+      #title
       h1 Join The Fight Against Cyber Bullying!
-      p Bully Blocker is the home for all of your of social media's. Stay safe online at the same time as chatting with all your freinds
+      p Bully Blocker is the home for all of your of social medias. Stay safe online at the same time as chatting with all your freinds
       img(src="./static/images/sign-in.jpg", height="10000px", width="100%", style="margin:auto")
     include ./components/footer.jade

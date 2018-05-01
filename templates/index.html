@@ -1,13 +1,15 @@
 
 <html>
   <head>
+    <script language="javascript" type="text/javascript" src="./static/p5/p5.js"></script>
+    <script language="javascript" type="text/javascript" src="./static/SteeringBehaviours/sketch.js"></script>
+    <script language="javascript" type="text/javascript" src="./static/SteeringBehaviours/vehicle.js"></script>
     <link rel="stylesheet" href="./static/index.min.css"/>
     <title>Bully Blocker</title>
   </head>
   <body>
     <!--output:../../sidenav.html-->
-    <div class="sidenav"><a>(href="javascript:void(0)", class="closebtn", onclick="closeNav()") &times </a><a>(href="#") social</a><a>(href="#") tools</a><a>(href="/about") about</a></div><span>(onclick="openNav()") open</span>
-    <div class="main"></div>
+    <div class="sidenav"><a href="javascript:void(0)" onclick="closeNav()" class="closebtn">&times </a><a href="#">social</a><a href="#">tools</a><a href="/about">about</a></div><span onclick="openNav()">open</span>
     <!--output:../../nav.html-->
     <nav>
       <ul class="nav-items">
@@ -17,13 +19,14 @@
       </ul>
     </nav>
     <div class="wrap">
+      <div id="title"></div>
       <h1>Join The Fight Against Cyber Bullying!</h1>
-      <p>Bully Blocker is the home for all of your of social media's. Stay safe online at the same time as chatting with all your freinds</p><img src="./static/images/sign-in.jpg" height="10000px" width="100%" style="margin:auto"/>
+      <p>Bully Blocker is the home for all of your of social medias. Stay safe online at the same time as chatting with all your freinds</p><img src="./static/images/sign-in.jpg" height="10000px" width="100%" style="margin:auto"/>
     </div>
     <!--output:../../footer.html-->
     <div class="footer">
       <div class="content">
-        <p><a href="/about">About</a>  |  <a href="/sign-in">Sign In</a>  |  <a href="/sign-up">Sign Up </a>
+        <p><a href="/about">About</a>  |  <a href="/index">Home</a>  |  <a href="/sign-up">Sign Up </a>
           <div class="copyright">Copyright (c) 2018 Bully Blocker All Rights Reserved.</div>
         </p>
       </div>
