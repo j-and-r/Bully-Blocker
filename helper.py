@@ -8,7 +8,7 @@ def twitter_feed(auth):
     tweets = api.home_timeline()
     return tweets
 
-def meanDetector(tweet, n_words):
+def rate(tweet, n_words):
     string = tweet.lower()
     meancount = 0
     wordcount = len(tweet.split(" "))

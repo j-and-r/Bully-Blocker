@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # WARNING: Setting up Redis session:
-# SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
+SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
@@ -114,11 +114,13 @@ def feed():
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
         body = tweet.text
+        rating = rate(body, n_words)
         tweets.append({
             "date": date,
             "username": username,
             "profile_pic": profile_pic,
-            "body": body
+            "body": body,
+            "rating": rating
         })
     return render_template("feed.html", tweets=tweets)
 
