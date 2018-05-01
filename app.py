@@ -9,12 +9,9 @@ import datetime
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-<<<<<<< HEAD
+
 print(os.environ.get("REDIS_URL", "127.0.0.1:6379"))
-# SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
-=======
 SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password="Tih68ZitsoXZxXe27Ps9YR7HdzXWGGDh")
->>>>>>> 613beb0e4f20b0b85948527f61d9710de6d8bf7d
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
