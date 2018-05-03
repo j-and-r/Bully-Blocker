@@ -5,6 +5,7 @@ from helper import *
 import os
 import redis
 import datetime
+import json
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -140,6 +141,25 @@ def gen_pword():
 @app.route("/password-strength")
 def pwd_strength():
     return render_template("password-strength.html")
+
+@app.route("/feed-test")
+def feed_test():
+    feed = json.loads(open("feed.txt", "r").read())
+    tweets = []
+    for tweet in feed:
+        date = tweet["created_at"]
+        username = tweet["user"]["name"]
+        profile_pic = tweet["user"]["profile_image_url"]
+        body = tweet["text"]
+        rating = rate(body, n_words)
+        tweets.append({
+            "date": date,
+            "username": username,
+            "profile_pic": profile_pic,
+            "body": body,
+            "rating": rating
+        })
+    return render_template("feed.html", tweets=tweets)
 
 app.run(host="0.0.0.0", port=port)
 
