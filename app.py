@@ -26,8 +26,8 @@ p_words = set()
 n_words = set()
 
 def load_words():
-    n_file = open("dicts/negative.txt", "r")
-    p_file = open("dicts/positive.txt", "r")
+    n_file = open("./static/dicts/negative.txt", "r")
+    p_file = open("./static/dicts/positive.txt", "r")
 
     for line in p_file:
         if line[0] != ";" and line != "":
@@ -39,11 +39,17 @@ def load_words():
             n_words.add(line.rstrip("\n"))
     n_file.close()
 
+load_words()
+
 # WARNING: Pages that don't require users to have account:
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/password-strength")
+def pwd_strength():
+    return render_template("password-strength.html")
 
 @app.route("/sign_in")
 def test():
