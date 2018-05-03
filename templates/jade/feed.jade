@@ -17,9 +17,8 @@ html
             br
             p.date {{ tweet.date }}
           p {{ tweet.body }}
-          p This post has a rating of: {{ tweet.rating }}%
           .graph.cf
-            .ext.neg
+            .ext(class="{{ tweet.overall }}")
               .bar(style="width: {{ tweet.rating }}%")
           img.post-img(src="./static/images/sign-in.jpg")
       {% endfor %}

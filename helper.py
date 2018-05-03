@@ -8,15 +8,21 @@ def twitter_feed(auth):
     tweets = api.home_timeline()
     return tweets
 
-def rate(tweet, n_words):
+def rate(tweet, n_words, p_words):
     string = tweet.lower()
-    meancount = 0
-    wordcount = len(tweet.split(" "))
+    n_count = 0
+    p_count = 0
+    total = len(tweet.split(" "))
     words = string.split(" ")
     for word in words:
         if word in n_words:
-            meancount += 1
-    ratio = str(round(meancount/wordcount*100, 1))
+            n_count += 1
+    for word in words:
+        if word in p_words:
+            p_count += 1
+    sentiment = p_count - n_count
+    ratio = str(round(sentiment/total*100, 1))
+    print(ratio)
     return ratio
 
 def generate_password():

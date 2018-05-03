@@ -118,13 +118,18 @@ def feed():
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
         body = tweet.text
-        rating = rate(body, n_words)
+        rating = rate(body, n_words, p_words)
+        if float(rating) > 0:
+            overall = "pos"
+        else:
+            overall = "neg"
         tweets.append({
             "date": date,
             "username": username,
             "profile_pic": profile_pic,
             "body": body,
-            "rating": rating
+            "rating": rating,
+            "overall": overall
         })
     return render_template("feed.html", tweets=tweets)
 
@@ -151,13 +156,18 @@ def feed_test():
         username = tweet["user"]["name"]
         profile_pic = tweet["user"]["profile_image_url"]
         body = tweet["text"]
-        rating = rate(body, n_words)
+        rating = rate(body, n_words, p_words)
+        if float(rating) > 0:
+            overall = "pos"
+        else:
+            overall = "neg"
         tweets.append({
             "date": date,
             "username": username,
             "profile_pic": profile_pic,
             "body": body,
-            "rating": rating
+            "rating": rating,
+            "overall": overall
         })
     return render_template("feed.html", tweets=tweets)
 
