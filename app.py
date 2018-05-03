@@ -39,6 +39,8 @@ def load_words():
             n_words.add(line.rstrip("\n"))
     n_file.close()
 
+load_words()
+
 # WARNING: Pages that don't require users to have account:
 
 @app.route("/")
