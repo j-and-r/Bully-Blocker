@@ -1,10 +1,19 @@
 .graph
-	width: 50%
+	width: 300px
 	background-color: darken(#eaeaea, 10%)
 	border-radius: 2px
+	height: 10px
+	margin: auto
 	margin-bottom: 20px
 
-/* Start of "Micro clearfix" */
+.graph:before
+	content: ""
+	margin-left: 150px
+	margin-top: -2px
+	width: 1px
+	height: 14px
+	background-color: black
+	position: absolute
 
 .cf
   zoom: 1
@@ -31,4 +40,5 @@
   background-color: rgb(0, 184, 82)
 
 .bar
-  height: 10px
+	height: 10px
+	top: -10px
