@@ -26,8 +26,8 @@ p_words = set()
 n_words = set()
 
 def load_words():
-    n_file = open("dicts/negative.txt", "r")
-    p_file = open("dicts/positive.txt", "r")
+    n_file = open("dicts/negative-words.txt", "r")
+    p_file = open("dicts/positive-words.txt", "r")
 
     for line in p_file:
         if line[0] != ";" and line != "":
