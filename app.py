@@ -47,10 +47,6 @@ load_words()
 def index():
     return render_template("index.html")
 
-@app.route("/password-strength")
-def pwd_strength():
-    return render_template("password-strength.html")
-
 @app.route("/sign_in")
 def test():
     return render_template("sign-in.html")
@@ -62,10 +58,6 @@ def sign_up():
 @app.route("/about")
 def about():
     return render_template("about.html")
-
-@app.route("/generate-password")
-def gen_pword():
-    return generate_password()
 
 @app.route("/title")
 def title():
@@ -134,6 +126,20 @@ def feed():
             "rating": rating
         })
     return render_template("feed.html", tweets=tweets)
+
+# TODO: Tests
+
+@app.route("/sentiment-indicator")
+def sent_indicator():
+    return render_template("sentiment-inidcator.html")
+
+@app.route("/generate-password")
+def gen_pword():
+    return generate_password()
+
+@app.route("/password-strength")
+def pwd_strength():
+    return render_template("password-strength.html")
 
 app.run(host="0.0.0.0", port=port)
 
