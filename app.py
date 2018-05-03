@@ -131,7 +131,7 @@ def feed():
 
 @app.route("/sentiment-indicator")
 def sent_indicator():
-    return render_template("sentiment-inidcator.html")
+    return render_template("sentiment-indicator.html")
 
 @app.route("/generate-password")
 def gen_pword():
