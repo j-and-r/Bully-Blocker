@@ -18,21 +18,9 @@ html
             p.date {{ tweet.date }}
           p {{ tweet.body }}
           p This post has a rating of: {{ tweet.rating }}%
+          .graph.cf
+            .ext.neg
+              .bar(style="width: {{ tweet.rating }}%")
           img.post-img(src="./static/images/sign-in.jpg")
       {% endfor %}
     include ./components/footer.jade
-    
-    //- {% for tweet in tweets %}
-    //-   <div class="post row">
-    //-     <div class="post-margin col col--2-of-16"><img src="{{ tweet.profile_pic }}" class="profile-img"/></div>
-    //-     <div class="post-body col col--14-of-16">
-    //-       <div class="head">
-    //-         <p class="profile-name">{{ tweet.username }}</p><br/>
-    //-         <p class="date">{{ tweet.date }}</p>
-    //-       </div>
-    //-       <p>{{ tweet.body }}</p>
-    //-       <p>This post has a rating of: {{ tweet.rating }}%</p>
-    //-       <img src="./static/images/sign-in.jpg" class="post-img"/>
-    //-     </div>
-    //-   </div>
-    //- {% endfor %}

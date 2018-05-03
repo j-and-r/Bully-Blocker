@@ -24,7 +24,12 @@
             <p class="date">{{ tweet.date }}</p>
           </div>
           <p>{{ tweet.body }}</p>
-          <p>This post has a rating of: {{ tweet.rating }}%</p><img src="./static/images/sign-in.jpg" class="post-img"/>
+          <p>This post has a rating of: {{ tweet.rating }}%</p>
+          <div class="graph cf">
+            <div class="ext neg">
+              <div style="width: {{ tweet.rating }}%" class="bar"></div>
+            </div>
+          </div><img src="./static/images/sign-in.jpg" class="post-img"/>
         </div>
       </div>{% endfor %}
     </div>
