@@ -128,7 +128,7 @@ def feed():
             "username": username,
             "profile_pic": profile_pic,
             "body": body,
-            "rating": rating,
+            "rating": abs(float(rating)),
             "overall": overall
         })
     return render_template("feed.html", tweets=tweets)
@@ -166,7 +166,7 @@ def feed_test():
             "username": username,
             "profile_pic": profile_pic,
             "body": body,
-            "rating": rating,
+            "rating": abs(float(rating)),
             "overall": overall
         })
     return render_template("feed.html", tweets=tweets)
