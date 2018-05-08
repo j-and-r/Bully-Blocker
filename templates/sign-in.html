@@ -16,10 +16,10 @@
     </nav>
     <div class="sign_in_wrap">
       <h1>Sign In</h1>
-      <form>
-        <input placeholder="username"/>
-        <input placeholder="password" type="password"/>
-        <div class="button-wrap"><a type="submit" href="/sign-" class="button">Sign In</a></div>
+      <form id="form" action="/sign_in" method="post">
+        <input placeholder="email" name="email"/>
+        <input placeholder="password" type="password" name="password"/>
+        <div class="button-wrap"><a href="javascript:{}" onclick="document.getElementById('form').submit(); return false;" class="button">Sign In</a></div>
         <p> <a href="/sign_up">Don't have an account?</a></p>
       </form>
     </div>

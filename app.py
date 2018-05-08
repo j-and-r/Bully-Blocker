@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, request
+from flask import Flask, render_template, redirect, session, request, jsonify
 from flask_session import Session
 import tweepy
 from helper import *
@@ -9,6 +9,9 @@ import json
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+cred = credentials.Certificate("creds.json")
+firebase = firebase_admin.initialize_app(cred, name="bully-blocker")
 
 # WARNING: Fetching env vars
 consumer_key = os.environ['TWITTER_KEY']
@@ -48,13 +51,31 @@ load_words()
 def index():
     return render_template("index.html")
 
-@app.route("/sign_in")
-def test():
-    return render_template("sign-in.html")
+@app.route("/sign_in", methods=["GET", "POST"])
+def sign_in():
+    if request.method == "GET":
+        return render_template("sign-in.html")
+    else:
+        email = request.form['email']
+        password = request.form['password']
+        user = sign_in_user(email, password)
+        session['user'] = user
+        return redirect('/setup')
 
-@app.route("/sign_up")
+@app.route("/setup")
+def setup():
+    return "This page is still under development"
+
+@app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
-    return render_template("sign-up.html")
+    if request.method == "GET":
+        return render_template("sign-up.html")
+    else:
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        new_user(firebase, username, email, password)
+        return redirect("/")
 
 @app.route("/about")
 def about():
@@ -67,7 +88,7 @@ def title():
 # WARNING: Twitter:
 
 @app.route("/twitter_auth")
-def sign_in():
+def twitter_auth():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
     try:
