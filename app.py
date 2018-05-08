@@ -51,6 +51,10 @@ load_words()
 def index():
     return render_template("index.html")
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @app.route("/sign_in", methods=["GET", "POST"])
 def sign_in():
     if request.method == "GET":
@@ -60,11 +64,7 @@ def sign_in():
         password = request.form['password']
         user = sign_in_user(email, password)
         session['user'] = user
-        return redirect('/setup')
-
-@app.route("/setup")
-def setup():
-    return "This page is still under development"
+        return redirect('/feed')
 
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
@@ -75,17 +75,15 @@ def sign_up():
         email = request.form['email']
         password = request.form['password']
         new_user(firebase, username, email, password)
-        return redirect("/")
+        user = sign_in_user(email, password)
+        session['user'] = user
+        return redirect("/setup")
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+# WARNING: Front end for logged in users:
 
-@app.route("/title")
-def title():
-    return render_template("steering.html")
-
-# WARNING: Twitter:
+@app.route("/setup")
+def setup():
+    return render_template("setup.html")
 
 @app.route("/twitter_auth")
 def twitter_auth():
@@ -120,8 +118,6 @@ def twitter_callback():
 
     return redirect("/feed")
 
-# WARNING: Front end for logged in users:
-
 @app.route("/feed")
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
@@ -155,11 +151,6 @@ def feed():
     return render_template("feed.html", tweets=tweets)
 
 # TODO: Tests
-
-@app.route("/sentiment-indicator")
-def sent_indicator():
-    return render_template("sentiment-indicator.html")
-
 @app.route("/generate-password")
 def gen_pword():
     return generate_password()
@@ -193,19 +184,3 @@ def feed_test():
     return render_template("feed.html", tweets=tweets)
 
 app.run(host="0.0.0.0", port=port)
-
-# @app.route("/get_feed")
-# def get_feed():
-#     if not 'access_token' in session or not 'access_secret' in session:
-#         return redirect('/twitter_auth')
-#     key = session['access_token']
-#     secret = session['access_secret']
-#
-#     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-#     auth.set_access_token(key, secret)
-#
-#     feed = twitter_feed(auth)
-#     tweets = []
-#     for tweet in feed:
-#         tweets.append(tweet.text)
-#     return str(tweet)
