@@ -6,6 +6,7 @@ import os
 import redis
 import datetime
 import json
+import facebook
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -96,6 +97,21 @@ def twitter_auth():
 
     session['request_token'] = auth.request_token
     return redirect(redirect_url, code=302)
+
+@app.route("/facebook_auth")
+def facebook_auth():
+    client_id = "465011457266482"
+    redirect_uri = "https://bully-blocker.herokuapp.com/facebook_callback"
+    # TODO: Change these to random strings
+    state = "{st=123456789, ds=987654321}"
+
+    return redirect("https://www.facebook.com/v3.0/dialog/oauth?client_id={" + client_id+ "}&redirect_uri={'" + redirect_uri + "'}&state={'" + state + "'")
+
+@app.route("/facebook_callback")
+def facebook_callback():
+    access_token = request.args['access_token']
+    return access_token
+
 
 @app.route("/twitter_callback")
 def twitter_callback():
