@@ -114,7 +114,7 @@ def facebook_auth():
     # TODO: Change these to random strings
     state = "{st=123456789, ds=987654321}"
 
-    return redirect("https://www.facebook.com/v3.0/dialog/oauth?client_id=" + client_id+ "&redirect_uri='" + redirect_uri + "'&state='" + state + "'")
+    return redirect("https://www.facebook.com/v3.0/dialog/oauth?client_id=" + client_id+ "&redirect_uri=" + redirect_uri + "&state='" + state + "'")
 
 @app.route("/facebook_callback")
 def facebook_callback():
