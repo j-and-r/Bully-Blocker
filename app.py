@@ -10,6 +10,15 @@ import json
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+# WARNING: Setup files
+with open("creds.json", "w+") as f:
+    f.write(os.environ['CREDS'])
+    f.close()
+
+with open("pyrebase.json", "w+") as f:
+    f.write(os.environ['PYREBASE'])
+    f.close()
+
 cred = credentials.Certificate("creds.json")
 firebase = firebase_admin.initialize_app(cred, name="bully-blocker")
 
