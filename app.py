@@ -118,7 +118,7 @@ def facebook_auth():
 
 @app.route("/facebook_callback")
 def facebook_callback():
-    access_token = request.args['access_token']
+    access_token = request.args['code']
     return access_token
 
 
