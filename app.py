@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, request
+from flask import Flask, render_template, redirect, session, request, jsonify
 from flask_session import Session
 import tweepy
 from helper import *
@@ -9,6 +9,9 @@ import json
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+cred = credentials.Certificate("creds.json")
+firebase = firebase_admin.initialize_app(cred, name="bully-blocker")
 
 # WARNING: Fetching env vars
 consumer_key = os.environ['TWITTER_KEY']
@@ -48,26 +51,42 @@ load_words()
 def index():
     return render_template("index.html")
 
-@app.route("/sign_in")
-def test():
-    return render_template("sign-in.html")
-
-@app.route("/sign_up")
-def sign_up():
-    return render_template("sign-up.html")
-
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-@app.route("/title")
-def title():
-    return render_template("steering.html")
+@app.route("/sign_in", methods=["GET", "POST"])
+def sign_in():
+    if request.method == "GET":
+        return render_template("sign-in.html")
+    else:
+        email = request.form['email']
+        password = request.form['password']
+        user = sign_in_user(email, password)
+        session['user'] = user
+        return redirect('/feed')
 
-# WARNING: Twitter:
+@app.route("/sign_up", methods=["GET", "POST"])
+def sign_up():
+    if request.method == "GET":
+        return render_template("sign-up.html")
+    else:
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        new_user(firebase, username, email, password)
+        user = sign_in_user(email, password)
+        session['user'] = user
+        return redirect("/setup")
+
+# WARNING: Front end for logged in users:
+
+@app.route("/setup")
+def setup():
+    return render_template("setup.html")
 
 @app.route("/twitter_auth")
-def sign_in():
+def twitter_auth():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
     try:
@@ -99,8 +118,6 @@ def twitter_callback():
 
     return redirect("/feed")
 
-# WARNING: Front end for logged in users:
-
 @app.route("/feed")
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
@@ -128,17 +145,12 @@ def feed():
             "username": username,
             "profile_pic": profile_pic,
             "body": body,
-            "rating": rating,
+            "rating": abs(float(rating)),
             "overall": overall
         })
     return render_template("feed.html", tweets=tweets)
 
 # TODO: Tests
-
-@app.route("/sentiment-indicator")
-def sent_indicator():
-    return render_template("sentiment-indicator.html")
-
 @app.route("/generate-password")
 def gen_pword():
     return generate_password()
@@ -166,25 +178,9 @@ def feed_test():
             "username": username,
             "profile_pic": profile_pic,
             "body": body,
-            "rating": rating,
+            "rating": abs(float(rating)),
             "overall": overall
         })
     return render_template("feed.html", tweets=tweets)
 
 app.run(host="0.0.0.0", port=port)
-
-# @app.route("/get_feed")
-# def get_feed():
-#     if not 'access_token' in session or not 'access_secret' in session:
-#         return redirect('/twitter_auth')
-#     key = session['access_token']
-#     secret = session['access_secret']
-#
-#     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-#     auth.set_access_token(key, secret)
-#
-#     feed = twitter_feed(auth)
-#     tweets = []
-#     for tweet in feed:
-#         tweets.append(tweet.text)
-#     return str(tweet)

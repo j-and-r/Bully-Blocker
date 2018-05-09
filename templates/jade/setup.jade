@@ -1,0 +1,18 @@
+//output:../setup.html
+html
+  head
+    link(rel="stylesheet", href="./static/setup.min.css")
+  body
+    a(href="/")
+      img.logo(src="static/icons/logo.png")
+    .wrap
+      h1 Choose a social media to get started
+      ul.card-list
+        a(href="/twitter_auth")
+          li.card
+            img.social-logo(src="static/icons/twitter.png")
+            p twitter
+        a(href="/")
+          li.card 
+            img.social-logo(src="static/icons/facebook.png")
+            p facebook

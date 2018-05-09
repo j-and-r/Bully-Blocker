@@ -1,5 +1,23 @@
 import random
 import tweepy
+import firebase_admin
+import json
+import pyrebase
+from firebase_admin import credentials
+from firebase_admin.auth import *
+
+def new_user(firebase, username, email, password):
+    user = create_user(email=email, password=password, display_name=username, app=firebase)
+    print("Created User!")
+
+def sign_in_user(email, password):
+    firebase = None
+    with open("pyrebase.json") as data:
+        config = json.load(data)
+        firebase = pyrebase.initialize_app(config)
+    auth = firebase.auth()
+    user = auth.sign_in_with_email_and_password(email, password)
+    return user
 
 def twitter_feed(auth):
 

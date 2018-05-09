@@ -135,3 +135,5 @@ venv.bak/
 # End of https://www.gitignore.io/api/macos,python
 
 twitter.txt
+creds.json
+pyrebase.json

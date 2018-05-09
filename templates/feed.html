@@ -15,7 +15,18 @@
       </ul>
     </nav>
     <div class="wrap">
-      <h1>Feed</h1>{% for tweet in tweets %}
+      <h1>Feed</h1>
+      <div class="menu">
+        <div class="option">
+          <Facebook></Facebook>
+        </div>
+        <div class="option">
+          <Facebook></Facebook>
+        </div>
+        <div class="option">
+          <Facebook></Facebook>
+        </div>
+      </div>{% for tweet in tweets %}
       <div class="post row"> 
         <div class="post-margin col col--2-of-16"><img src="{{ tweet.profile_pic }}" class="profile-img"/></div>
         <div class="post-body col col--14-of-16">
