@@ -121,7 +121,7 @@ def facebook_callback():
     access_token = request.args['code']
     graph = facebook.GraphAPI(access_token=access_token, version="2.7")
     session['graph'] = graph
-    return str(graph.getget_object(id='115046399369073'))
+    return str(graph.get_object(id='115046399369073'))
 
 @app.route("/twitter_callback")
 def twitter_callback():
