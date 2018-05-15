@@ -30,7 +30,7 @@ port = int(os.environ.get('PORT', 5000))
 redis_password = os.environ.get('REDIS_PASSWORD')
 
 # WARNING: Setting up Redis session:
-SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
+# SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
@@ -65,7 +65,7 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route("/sign_in", methods=["GET", "POST"])
+@app.route("/sign-in", methods=["GET", "POST"])
 def sign_in():
     if request.method == "GET":
         return render_template("sign-in.html")
@@ -76,7 +76,7 @@ def sign_in():
         session['user'] = user
         return redirect('/feed')
 
-@app.route("/sign_up", methods=["GET", "POST"])
+@app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
     if request.method == "GET":
         return render_template("sign-up.html")
@@ -95,7 +95,7 @@ def sign_up():
 def setup():
     return render_template("setup.html")
 
-@app.route("/twitter_auth")
+@app.route("/twitter-auth")
 def twitter_auth():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
@@ -107,7 +107,7 @@ def twitter_auth():
     session['request_token'] = auth.request_token
     return redirect(redirect_url, code=302)
 
-@app.route("/facebook_auth")
+@app.route("/facebook-auth")
 def facebook_auth():
     client_id = "465011457266482"
     redirect_uri = "https://bully-blocker.herokuapp.com/facebook_callback"
@@ -116,17 +116,17 @@ def facebook_auth():
 
     return redirect("https://www.facebook.com/v3.0/dialog/oauth?client_id=" + client_id+ "&redirect_uri=" + redirect_uri + "&state='" + state + "'")
 
-@app.route("/facebook_callback")
+@app.route("/facebook-callback")
 def facebook_callback():
     access_token = request.args['code']
     graph = facebook.GraphAPI(access_token=access_token, version="2.7")
     session['graph'] = graph
     return str(graph.get_object(id='115046399369073'))
 
-@app.route("/twitter_callback")
+@app.route("/twitter-callback")
 def twitter_callback():
     if not 'request_token' in session:
-        return redirect('/twitter_auth')
+        return redirect('/twitter-auth')
 
     verifier = request.args.get('oauth_verifier')
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -147,7 +147,7 @@ def twitter_callback():
 @app.route("/feed")
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
-        return redirect('/twitter_auth')
+        return redirect('/setup')
     key = session['access_token']
     secret = session['access_secret']
 

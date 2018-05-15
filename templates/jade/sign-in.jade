@@ -7,12 +7,12 @@ html
     include ./components/nav.jade
     .sign_in_wrap
       h1 Sign In
-      form(id="form", action="/sign_in", method="post")
+      form(id="form", action="/sign-in", method="post")
         input(placeholder="email", name="email")
         input(placeholder="password", type="password", name="password")
         div.button-wrap
           a.button(href="javascript:{}", onclick="document.getElementById('form').submit(); return false;") Sign In
         p 
-          a(href="/sign_up") Don't have an account?
+          a(href="/sign-up") Don't have an account?
       
       
