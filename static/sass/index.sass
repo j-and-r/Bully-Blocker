@@ -1,9 +1,58 @@
-@import "nav"
 @import "footer"
+
+$nav-height: 64px
+$nav-logo-height: 80px
+$nav-logo-offset: ($nav-height - ($nav-logo-height / 2))
 
 html
   font-family: arial, sans-serif
   text-align: center
+
+.mdl-layout__header
+  background: white
+  color: darken(rgb(0, 210, 169), 5%)
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3)
+
+.mdl-layout__drawer-button
+  i
+    color: darken(rgb(0, 210, 169), 5%)
+    font-size: 1.2em
+  display: flex
+  justify-content: center
+  align-items: center
+
+
+.mdl-layout__header-row .mdl-navigation__link
+  color: darken(rgb(0, 210, 169), 5%)
+  text-transform: uppercase
+  font-weight: normal
+  font-size: 1.2em
+
+.primary_action
+  background: darken(rgb(0, 210, 169), 5%)
+  padding: 12px
+  border-radius: 30px
+  color: white
+  text-decoration: none
+  text-transform: uppercase
+  font-weight: normal
+  font-size: 1.2em
+  transition: all 200ms ease-in-out
+
+  &:hover
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3)
+    padding: 15px
+    margin-left: -4.5px
+    margin-right: -4.5px
+    font-size: 1.25em
+
+.nav-logo
+  height: $nav-logo-height
+  position: absolute
+  margin: 0px
+  left: $nav-logo-offset + 3
+  top: $nav-logo-offset
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5))
 
 body
   padding: 0
