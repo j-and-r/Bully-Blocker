@@ -5,7 +5,7 @@
     <title>Feed</title>
   </head>
   <body>
-    <!--output:../../nav.html-->
+    <!--output:../../signed-in-nav.html-->
     <nav>
       <ul class="nav-items">
         <li><img src="static/icons/logo.png" class="nav-logo"/></li>
@@ -15,11 +15,7 @@
       </ul>
     </nav>
     <div class="wrap">
-      <h1>Feed</h1>
-      <div class="menu">
-        <div class="option">Facebook</div>
-        <div class="option">Twitter</div>
-      </div>{% for tweet in tweets %}
+      <div class="menu"><span class="option"><img src="./static/icons/facebook.png"/>Facebook </span><span class="option"><img src="./static/icons/twitter.png"/>Twitter</span></div>{% for tweet in tweets %}
       <div class="post row"> 
         <div class="post-margin col col--2-of-16"><img src="{{ tweet.profile_pic }}" class="profile-img"/></div>
         <div class="post-body col col--14-of-16">

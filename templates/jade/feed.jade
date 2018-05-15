@@ -6,10 +6,13 @@ html
   body
     include ./components/signed-in-nav.jade
     .wrap
-      h1 Feed
       .menu
-        .option Facebook
-        .option Twitter
+        span.option
+          img(src="./static/icons/facebook.png")
+          | Facebook 
+        span.option
+          img(src="./static/icons/twitter.png")
+          | Twitter
       {% for tweet in tweets %}
       .post.row 
         .post-margin.col.col--2-of-16
