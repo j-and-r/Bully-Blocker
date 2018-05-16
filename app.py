@@ -74,7 +74,7 @@ def sign_in():
         password = request.form['password']
         user = sign_in_user(email, password)
         session['user'] = user
-        return redirect('/feed')
+        return redirect('/twitter-feed')
 
 @app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
@@ -142,9 +142,9 @@ def twitter_callback():
     session['access_token'] = auth.access_token
     session['access_secret'] = auth.access_token_secret
 
-    return redirect("/feed")
+    return redirect("/twitter-feed")
 
-@app.route("/feed")
+@app.route("/twitter-feed")
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
         return redirect('/setup')
@@ -174,7 +174,7 @@ def feed():
             "rating": abs(float(rating)),
             "overall": overall
         })
-    return render_template("feed.html", tweets=tweets)
+    return render_template("twitter-feed.html", tweets=tweets)
 
 # TODO: Tests
 @app.route("/generate-password")
@@ -207,6 +207,6 @@ def feed_test():
             "rating": abs(float(rating)),
             "overall": overall
         })
-    return render_template("feed.html", tweets=tweets)
+    return render_template("twitter-feed.html", tweets=tweets)
 
 app.run(host="0.0.0.0", port=port)
