@@ -9,13 +9,13 @@
     <nav>
       <ul class="nav-items">
         <li><img src="static/icons/logo.png" class="nav-logo"/></li>
-        <li> <a href="/" class="flat-button">Home</a></li>
-        <li> <a href="sign-in" class="flat-button">Sign In</a></li>
         <li><a href="/feed" class="flat-button">Feed</a></li>
+        <li> <a href="#" class="flat-button">Sign out</a></li>
+        <li><img src="static/icons/blank-profile.png" class="profile-image"/></li>
       </ul>
     </nav>
     <div class="wrap">
-      <div class="menu"><span class="option"><img src="./static/icons/facebook.png"/>Facebook </span><span class="option"><img src="./static/icons/twitter.png"/>Twitter</span></div>{% for tweet in tweets %}
+      <div class="menu"><span id="first-child" class="option"><img src="./static/icons/facebook.png"/><span>Facebook </span></span><span id="second-child" class="option"><img src="./static/icons/twitter.png"/><span>Twitter</span></span></div>{% for tweet in tweets %}
       <div class="post row"> 
         <div class="post-margin col col--2-of-16"><img src="{{ tweet.profile_pic }}" class="profile-img"/></div>
         <div class="post-body col col--14-of-16">

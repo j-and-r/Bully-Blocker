@@ -7,12 +7,12 @@ html
     include ./components/signed-in-nav.jade
     .wrap
       .menu
-        span.option
+        span.option#first-child
           img(src="./static/icons/facebook.png")
-          | Facebook 
-        span.option
+          span Facebook 
+        span.option#second-child
           img(src="./static/icons/twitter.png")
-          | Twitter
+          span Twitter
       {% for tweet in tweets %}
       .post.row 
         .post-margin.col.col--2-of-16
