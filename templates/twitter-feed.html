@@ -38,7 +38,7 @@
                 <div style="width: {{ tweet.rating }}%" class="bar"></div>
               </div>
             </div>{% if tweet.pics|length > 0 %}
-            {% for pic in pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
+            {% for pic in tweet.pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
             {% endif %}
           </div>
         </div>{% endfor %}

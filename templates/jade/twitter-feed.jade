@@ -28,7 +28,7 @@ html
               .ext(class="{{ tweet.overall }}")
                 .bar(style="width: {{ tweet.rating }}%")
             {% if tweet.pics|length > 0 %}
-            {% for pic in pics %}
+            {% for pic in tweet.pics %}
             img.post-img(src="{{ pic }}")
             {% endfor %}
             {% endif %}
