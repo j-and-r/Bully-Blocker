@@ -1,18 +1,23 @@
 //output:../sign-in.html
 html
   head
+    link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet", href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css")
+    script(defer, src="https://code.getmdl.io/1.3.0/material.min.js")
     link(rel="stylesheet", href="./static/sign-in.min.css")
     title Sign In | Bully Blocker
   body
+  div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
     include ./components/nav.jade
-    .sign_in_wrap
-      h1 Sign In
-      form(id="form", action="/sign-in", method="post")
-        input(placeholder="email", name="email")
-        input(placeholder="password", type="password", name="password")
-        div.button-wrap
-          a.button(href="javascript:{}", onclick="document.getElementById('form').submit(); return false;") Sign In
-        p 
-          a(href="/sign-up") Don't have an account?
+    main.mdl-layout__content
+      .sign_in_wrap
+        h1 Sign In
+        form(id="form", action="/sign-in", method="post")
+          input(placeholder="email", name="email")
+          input(placeholder="password", type="password", name="password")
+          div.button-wrap
+            a.button(href="javascript:{}", onclick="document.getElementById('form').submit(); return false;") Sign In
+          p 
+            a(href="/sign-up") Don't have an account?
       
       

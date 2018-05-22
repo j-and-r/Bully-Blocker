@@ -1,11 +1,24 @@
 //output:../../nav.html
-nav
-  ul.nav-items
-    li
-      img.nav-logo(src="static/icons/logo.png")
-    li 
-      a.flat-button(href="/") Home
-    li 
-      a.flat-button(href="sign-in") Sign In
-    li
-      a.flat-button(href="/feed") Feed
+header.mdl-layout__header
+  div.mdl-layout__header-row
+    img.nav-logo(src="static/icons/logo.png")
+    div.mdl-layout-spacer
+    nav.mdl-navigation
+      a.mdl-navigation__link(href="/about") About
+      a.mdl-navigation__link(href="/sign-in") Sign In
+      a.primary_action(href="/sign-up") Sign Up
+div.mdl-layout__drawer
+  span.mdl-layout-title Bully Blocker
+  nav.mdl-navigation
+    a.mdl-navigation__link(href="/settings") 
+      span.mdl-list__item-primary-content
+        i.material-icons.mdl-list__item-icon settings
+        |  Settings
+    a.mdl-navigation__link(href="/logout")
+      span.mdl-list__item-primary-content
+        i.material-icons.mdl-list__item-icon power_settings_new
+        |  Logout
+    a.mdl-navigation__link(href="")
+      span.mdl-list__item-primary-content
+        i.material-icons.mdl-list__item-icon person
+        |  Profile
