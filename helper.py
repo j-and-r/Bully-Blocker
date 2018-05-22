@@ -5,6 +5,8 @@ import json
 import pyrebase
 from firebase_admin import credentials
 from firebase_admin.auth import *
+from functools import wraps
+from flask import abort
 
 def new_user(firebase, username, email, password):
     user = create_user(email=email, password=password, display_name=username, app=firebase)
@@ -51,3 +53,12 @@ def generate_password():
         p += chr(n)
 
     return p
+
+# def login_required(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kws):
+#         if not 'user' in session:
+#             # return redirect("/sign-in")
+#             return "You have been stopped!"
+#         return f(*args, **kws)
+#     return decorated_function
