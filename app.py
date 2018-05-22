@@ -110,7 +110,7 @@ def twitter_auth():
 @app.route("/facebook-auth")
 def facebook_auth():
     client_id = "465011457266482"
-    redirect_uri = "https://bully-blocker.herokuapp.com/facebook_callback"
+    redirect_uri = "https://bully-blocker.herokuapp.com/facebook-callback"
     # TODO: Change these to random strings
     state = "{st=123456789, ds=987654321}"
 
