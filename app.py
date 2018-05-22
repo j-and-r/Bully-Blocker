@@ -142,7 +142,7 @@ def twitter_callback():
 
     return redirect("/twitter-feed")
 
-@app.route("/feed")
+@app.route("/twitter-feed")
 @login_required
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
