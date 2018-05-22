@@ -54,6 +54,14 @@ def generate_password():
 
     return p
 
+def twitter_pictures(status):
+    media_files = set()
+    media = status.entities.get('media', [])
+    if(len(media) > 0):
+        media_files.add(media[0]['media_url'])
+
+    return media_files
+
 # def login_required(f):
 #     @wraps(f)
 #     def decorated_function(*args, **kws):
