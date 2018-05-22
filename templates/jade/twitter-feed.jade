@@ -27,6 +27,10 @@ html
             .graph.cf
               .ext(class="{{ tweet.overall }}")
                 .bar(style="width: {{ tweet.rating }}%")
-            img.post-img(src="./static/images/sign-in.jpg")
+            {% if tweet.pics|length > 0 %}
+            {% for pic in pics %}
+            img.post-img(src="{{ pic }}")
+            {% endfor %}
+            {% endif %}
         {% endfor %}
       include ./components/footer.jade

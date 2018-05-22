@@ -168,6 +168,7 @@ def feed():
         else:
             overall = "neg"
         tweets.append({
+            "pics": pics,
             "date": date,
             "username": username,
             "profile_pic": profile_pic,

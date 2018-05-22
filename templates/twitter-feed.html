@@ -37,7 +37,9 @@
               <div class="ext {{ tweet.overall }}">
                 <div style="width: {{ tweet.rating }}%" class="bar"></div>
               </div>
-            </div><img src="./static/images/sign-in.jpg" class="post-img"/>
+            </div>{% if tweet.pics|length > 0 %}
+            {% for pic in pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
+            {% endif %}
           </div>
         </div>{% endfor %}
       </div>
