@@ -121,7 +121,7 @@ def facebook_callback():
     access_token = request.args['code']
     graph = facebook.GraphAPI(access_token=access_token, version="2.7")
     session['graph'] = graph
-    return str(graph.get_object(id='115046399369073'))
+    return str(graph.get_object(id='me'))
 
 @app.route("/twitter-callback")
 def twitter_callback():
@@ -175,6 +175,10 @@ def feed():
             "overall": overall
         })
     return render_template("twitter-feed.html", tweets=tweets)
+
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
 
 # TODO: Tests
 @app.route("/generate-password")
