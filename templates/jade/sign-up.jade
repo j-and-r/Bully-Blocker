@@ -1,18 +1,22 @@
 //output:../sign-up.html
 html
   head
+    link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet", href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css")
+    script(defer, src="https://code.getmdl.io/1.3.0/material.min.js")
     link(rel="stylesheet", href="./static/sign-in.min.css")
     title Sign In | Bully Blocker
-  body
+  div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
     include ./components/nav.jade
-    .sign_in_wrap
-      h1 Sign Up
-      form(id="form", action="/sign-up", method="post")
-        input(placeholder="username", name="username")
-        input(placeholder="email", name="email")
-        input(placeholder="password", type="password", name="password")
-        input(placeholder="confirm password", type="password", name="password-confirm")
-        div.button-wrap
-          a.button(href="javascript:{}", onclick="document.getElementById('form').submit(); return false;") Sign Up
-        p 
-          a(href="/sign-in") Already have an account?
+    main.mdl-layout__content
+      .sign_in_wrap
+        h1 Sign Up
+        form(id="form", action="/sign-up", method="post")
+          input(placeholder="username", name="username")
+          input(placeholder="email", name="email")
+          input(placeholder="password", type="password", name="password")
+          input(placeholder="confirm password", type="password", name="password-confirm")
+          div.button-wrap
+            a.button(href="javascript:{}", onclick="document.getElementById('form').submit(); return false;") Sign Up
+          p 
+            a(href="/sign-in") Already have an account?

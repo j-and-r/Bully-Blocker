@@ -55,6 +55,14 @@ def load_words():
 
 load_words()
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kws):
+        if not 'user' in session or session['user'] is None:
+            return redirect("/sign-in")
+        return f(*args, **kws)
+    return decorated_function
+
 # WARNING: Pages that don't require users to have account:
 
 @app.route("/")
@@ -89,6 +97,12 @@ def sign_up():
         session['user'] = user
         return redirect("/setup")
 
+@app.route("/logout")
+def logout():
+    if 'user' in session and session['user'] is not None:
+        session['user'] = None
+    return redirect("/sign-in")
+
 # WARNING: Front end for logged in users:
 
 @app.route("/setup")
@@ -106,22 +120,6 @@ def twitter_auth():
 
     session['request_token'] = auth.request_token
     return redirect(redirect_url, code=302)
-
-@app.route("/facebook-auth")
-def facebook_auth():
-    client_id = "465011457266482"
-    redirect_uri = "https://bully-blocker.herokuapp.com/facebook-callback"
-    # TODO: Change these to random strings
-    state = "{st=123456789, ds=987654321}"
-
-    return redirect("https://www.facebook.com/v3.0/dialog/oauth?client_id=" + client_id+ "&redirect_uri=" + redirect_uri + "&state='" + state + "'")
-
-@app.route("/facebook-callback")
-def facebook_callback():
-    access_token = request.args['code']
-    graph = facebook.GraphAPI(access_token=access_token, version="2.7")
-    session['graph'] = graph
-    return str(graph.get_object(id='me'))
 
 @app.route("/twitter-callback")
 def twitter_callback():
@@ -144,7 +142,8 @@ def twitter_callback():
 
     return redirect("/twitter-feed")
 
-@app.route("/twitter-feed")
+@app.route("/feed")
+@login_required
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
         return redirect('/setup')
@@ -190,6 +189,7 @@ def pwd_strength():
     return render_template("password-strength.html")
 
 @app.route("/feed-test")
+@login_required
 def feed_test():
     feed = json.loads(open("feed.txt", "r").read())
     tweets = []
@@ -214,3 +214,25 @@ def feed_test():
     return render_template("twitter-feed.html", tweets=tweets)
 
 app.run(host="0.0.0.0", port=port)
+
+
+# @app.route("/facebook-auth")
+# def facebook_auth():
+#     client_id = "465011457266482"
+#     redirect_uri = "https://bully-blocker.herokuapp.com/get-access-token"
+#     # TODO: Change these to random strings
+#     state = "{st=123456789, ds=987654321}"
+#
+#     return redirect("https://www.facebook.com/v3.0/dialog/oauth?client_id=" + client_id+ "&redirect_uri=" + redirect_uri + "&state='" + state + "'")
+#
+# @app.route("/get-access-token")
+# def get_access_token():
+#     code = request.args['code']
+#     url = "https://graph.facebook.com/oauth/access_token?client_id=" + app_id + "&redirect_uri=" + redirect_uri + "&client_secret=" + app_secret + "&code=" + code
+#
+# @app.route("/facebook-callback")
+# def facebook_callback():
+#     access_token = request.args['access_token']
+#     graph = facebook.GraphAPI(access_token=access_token, version="2.7")
+#     session['graph'] = graph
+#     return str(graph.get_object(id='115046399369073'))

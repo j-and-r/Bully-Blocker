@@ -1,31 +1,32 @@
 //output:../twitter-feed.html
 html
   head
+    link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet", href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css")
+    script(defer, src="https://code.getmdl.io/1.3.0/material.min.js")
     link(rel="stylesheet", href="./static/feed.min.css")
     title Feed
-  body
-    include ./components/signed-in-nav.jade
-    .wrap
-      .menu
-        span.option#first-child
-          img(src="./static/icons/facebook.png")
-          span Facebook 
-        span.option#second-child
-          img(src="./static/icons/twitter.png")
-          span Twitter
-      {% for tweet in tweets %}
-      .post.row 
-        .post-margin.col.col--2-of-16
-          img.profile-img(src="{{ tweet.profile_pic }}")
-        .post-body.col.col--14-of-16
-          .head
-            p.profile-name {{ tweet.username }}
-            br
-            p.date {{ tweet.date }}
-          p {{ tweet.body }}
-          .graph.cf
-            .ext(class="{{ tweet.overall }}")
-              .bar(style="width: {{ tweet.rating }}%")
-          img.post-img(src="./static/images/sign-in.jpg")
-      {% endfor %}
-    include ./components/footer.jade
+  div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+    include ./components/nav.jade
+    main.mdl-layout__content
+      .wrap
+        h1 Feed
+        .menu
+          .option Facebook
+          .option Twitter
+        {% for tweet in tweets %}
+        .post.row 
+          .post-margin.col.col--2-of-16
+            img.profile-img(src="{{ tweet.profile_pic }}")
+          .post-body.col.col--14-of-16
+            .head
+              p.profile-name {{ tweet.username }}
+              br
+              p.date {{ tweet.date }}
+            p {{ tweet.body }}
+            .graph.cf
+              .ext(class="{{ tweet.overall }}")
+                .bar(style="width: {{ tweet.rating }}%")
+            img.post-img(src="./static/images/sign-in.jpg")
+        {% endfor %}
+      include ./components/footer.jade
