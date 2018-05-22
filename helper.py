@@ -12,7 +12,7 @@ def new_user(firebase, username, email, password):
     try:
         user = create_user(email=email, password=password, display_name=username, app=firebase)
     except Exception as e:
-
+        print(e)
     print("Created User!")
 
 def sign_in_user(email, password):
