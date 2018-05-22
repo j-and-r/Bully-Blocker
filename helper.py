@@ -59,7 +59,7 @@ def generate_password():
 def twitter_pictures(status):
     media_files = set()
     media = status.entities.get('media', [])
-    print(media)
+    print(status)
     if(len(media) > 0):
         media_files.add(media[0]['media_url'])
 
