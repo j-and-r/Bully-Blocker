@@ -9,7 +9,10 @@ from functools import wraps
 from flask import abort
 
 def new_user(firebase, username, email, password):
-    user = create_user(email=email, password=password, display_name=username, app=firebase)
+    try:
+        user = create_user(email=email, password=password, display_name=username, app=firebase)
+    except Exception as e:
+        print(e)
     print("Created User!")
 
 def sign_in_user(email, password):
@@ -22,7 +25,6 @@ def sign_in_user(email, password):
     return user
 
 def twitter_feed(auth):
-
     api = tweepy.API(auth)
 
     tweets = api.home_timeline()
@@ -57,6 +59,7 @@ def generate_password():
 def twitter_pictures(status):
     media_files = set()
     media = status.entities.get('media', [])
+    print(status)
     if(len(media) > 0):
         media_files.add(media[0]['media_url'])
 

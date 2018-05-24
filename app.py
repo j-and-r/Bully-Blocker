@@ -157,7 +157,6 @@ def feed():
     tweets = []
     for tweet in feed:
         pics = twitter_pictures(tweet)
-        print (pics)
         date = tweet.created_at.strftime('%A, %b %Y')
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
@@ -168,6 +167,7 @@ def feed():
         else:
             overall = "neg"
         tweets.append({
+            "pics": pics,
             "date": date,
             "username": username,
             "profile_pic": profile_pic,
