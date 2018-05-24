@@ -12,7 +12,8 @@
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row"><img src="static/icons/logo.png" class="nav-logo"/>
         <div class="mdl-layout-spacer"></div>
-        <nav class="mdl-navigation"><a href="/about" class="mdl-navigation__link">About</a><a href="/logout" id="sign-out" class="mdl-navigation__link">Sign out</a><a href="/profile"><img src="static/icons/blank-profile.png" class="profile-image"/></a></nav>
+        <nav class="mdl-navigation"><a href="/about" class="mdl-navigation__link">About</a><a href="/logout" class="mdl-navigation__link">Sign out </a><a href="/profile"><img src="static/icons/blank-profile.png" class="profile-image"/></a>
+        </nav>
       </div>
     </header>
     <div class="mdl-layout__drawer"><span class="mdl-layout-title">Bully Blocker</span>
@@ -20,10 +21,13 @@
     </div>
     <main class="mdl-layout__content">
       <div class="wrap">
-        <h1>Settings</h1><span>Dark Theme
-          <label for="switch-2" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-            <input type="checkbox" id="switch-2" class="mdl-switch__input"/><span class="mdl-switch__label"></span>
-          </label></span>
+        <h1>Settings      </h1>
+        <ul class="demo-list-control mdl-list">
+          <li class="mdl-list__item"><span class="mdl-list__item-primary-content"><i class="material-icons icon">brightness_medium</i>Dark Theme</span><span class="mdl-list__item-secondary-action">
+              <label for="list-switch-1" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                <input type="checkbox" id="list-switch-1" class="mdl-switch__input"/>
+              </label></span></li>
+        </ul>
       </div>
       <!--output:../../footer.html-->
       <div class="footer">

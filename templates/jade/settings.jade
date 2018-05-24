@@ -10,9 +10,13 @@ html
     include ./components/signed-in-nav.jade
     main.mdl-layout__content
       .wrap
-        h1 Settings
-        span Dark Theme
-          label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="switch-2")
-            input.mdl-switch__input(type="checkbox", id="switch-2")
-            span.mdl-switch__label
+        h1 Settings      
+        ul.demo-list-control.mdl-list
+          li.mdl-list__item
+            span.mdl-list__item-primary-content
+              i.material-icons.icon brightness_medium
+              | Dark Theme
+            span.mdl-list__item-secondary-action
+              label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="list-switch-1")
+                input.mdl-switch__input(type="checkbox", id="list-switch-1")            
       include ./components/footer.jade
