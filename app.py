@@ -203,7 +203,7 @@ def post():
         if result is not "":
             return result
         else:
-            return redirect("/feed")
+            return redirect("/twitter-feed")
 
 @app.route("/settings")
 @login_required
