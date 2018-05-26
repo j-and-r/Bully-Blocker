@@ -5,15 +5,17 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"/>
     <script defer="defer" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <link rel="stylesheet" href="./static/create-post.min.css"/>
+    <script src="./static/js/create-post.js"></script>
     <title>Post | Bully Blocker</title>
   </head>
   <body></body>
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <!--output:../../nav.html-->
+    <!--output:../../signed-in-nav.html-->
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row"><img src="static/icons/logo.png" class="nav-logo"/>
         <div class="mdl-layout-spacer"></div>
-        <nav class="mdl-navigation"><a href="/about" class="mdl-navigation__link">About</a><a href="/sign-in" class="mdl-navigation__link">Sign In</a><a href="/sign-up" class="primary_action">Sign Up</a></nav>
+        <nav class="mdl-navigation"><a href="/about" class="mdl-navigation__link">About</a><a href="/logout" class="mdl-navigation__link">Sign out </a><a href="/profile" class="mdl-navigation__link"><img src="static/icons/blank-profile.png" width="40px" style="border-radius: 50%; margin-right: 10px" class="profile-image"/></a>
+        </nav>
       </div>
     </header>
     <div class="mdl-layout__drawer"><span class="mdl-layout-title">Bully Blocker</span>
@@ -21,8 +23,9 @@
     </div>
     <main class="mdl-layout__content">
       <h1>Post</h1>
-      <form action="/create-post" method="post" class="compose-form">
-        <textarea name="body" cols="40" rows="5" id="post-body"></textarea>
+      <form action="/twitter-post" method="post" id="form">
+        <textarea name="body" cols="40" rows="5" id="post-body" maxlength="140"></textarea>
+        <p id="count">0/140</p>
         <div class="button-wrap"><a href="javascript:{}" onclick="document.getElementById('form').submit(); return false;" class="button">POST</a></div>
       </form>
     </main>

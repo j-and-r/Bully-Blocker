@@ -30,10 +30,9 @@ port = int(os.environ.get('PORT', 5000))
 redis_password = os.environ.get('REDIS_PASSWORD')
 azure_key = os.environ.get('AZURE_KEY')
 
-# print(moderate("Hello World! Asshole!", azure_key))
 
 # WARNING: Setting up Redis session:
-# SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
+SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
 SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
@@ -109,10 +108,12 @@ def logout():
 # WARNING: Front end for logged in users:
 
 @app.route("/setup")
+@login_required
 def setup():
     return render_template("setup.html")
 
 @app.route("/twitter-auth")
+@login_required
 def twitter_auth():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
@@ -125,6 +126,7 @@ def twitter_auth():
     return redirect(redirect_url, code=302)
 
 @app.route("/twitter-callback")
+@login_required
 def twitter_callback():
     if not 'request_token' in session:
         return redirect('/twitter-auth')
@@ -149,7 +151,7 @@ def twitter_callback():
 @login_required
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
-        return redirect('/setup')
+        return redirect('/twitter-auth')
     key = session['access_token']
     secret = session['access_secret']
 
@@ -184,10 +186,27 @@ def feed():
 @app.route("/twitter-post", methods=["GET", "POST"])
 @login_required
 def post():
+    if not 'access_token' in session or not 'access_secret' in session:
+        return redirect('/twitter-auth')
+
     if request.method == "GET":
         return render_template("create-post.html")
+    else:
+        body = request.form['body']
+
+        key = session['access_token']
+        secret = session['access_secret']
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(key, secret)
+
+        result = post_twitter(auth)
+        if result is not "":
+            return result
+        else:
+            return redirect("/feed")
 
 @app.route("/settings")
+@login_required
 def settings():
     return render_template("settings.html")
 
