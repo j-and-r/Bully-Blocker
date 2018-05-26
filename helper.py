@@ -36,7 +36,7 @@ def post_twitter(auth, body):
     err = ""
 
     try:
-        api.update_status('body')
+        api.update_status(body)
     except Exception as e:
         err = e
 
