@@ -41,7 +41,7 @@ def post_twitter(auth):
         err = e
 
     return e
-    
+
 def rate(tweet, n_words, p_words):
     string = tweet.lower()
     n_count = 0
@@ -84,6 +84,7 @@ def moderate(text, key):
         'Content-Type': 'text/plain',
         'Ocp-Apim-Subscription-Key': key,
     }
+    text = text.encode('utf-8')
     request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
     r = requests.post(request_url, data=text, headers=headers)
     return r.json()
