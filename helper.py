@@ -31,12 +31,12 @@ def twitter_feed(auth):
     tweets = api.home_timeline()
     return tweets
 
-def post_twitter(auth):
+def post_twitter(auth, body):
     api = tweepy.API(auth)
     err = ""
 
     try:
-        api.update_status('Updating using OAuth authentication via Tweepy!')
+        api.update_status('body')
     except Exception as e:
         err = e
 

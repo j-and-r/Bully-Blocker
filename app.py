@@ -199,7 +199,7 @@ def post():
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(key, secret)
 
-        result = post_twitter(auth)
+        result = post_twitter(auth, body)
         if result is not "":
             return result
         else:
