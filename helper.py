@@ -40,7 +40,7 @@ def post_twitter(auth):
     except Exception as e:
         err = e
 
-    return e
+    return err
 
 def rate(tweet, n_words, p_words):
     string = tweet.lower()
