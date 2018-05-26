@@ -1,14 +1,26 @@
 //output:../../signed-in-nav.html
-nav
-  ul.nav-items
-    li
-      img.nav-logo(src="static/icons/logo.png")
-    li
-      a.flat-button(href="/twitter-feed") Feed
-    li 
-      a.flat-button(href="#") Sign out
-    li
+header.mdl-layout__header
+  div.mdl-layout__header-row
+    img.nav-logo(src="static/icons/logo.png")
+    div.mdl-layout-spacer
+    nav.mdl-navigation
+      a.mdl-navigation__link(href="/about") About
+      a.mdl-navigation__link(href="/logout") Sign out 
+      //- id="padding_For_Profile_Pic"
       a(href="/profile")
         img.profile-image(src="static/icons/blank-profile.png")
-      
-        
+div.mdl-layout__drawer
+  span.mdl-layout-title Bully Blocker
+  nav.mdl-navigation
+    a.mdl-navigation__link(href="/settings") 
+      span.mdl-list__item-primary-content
+        i.material-icons.mdl-list__item-icon settings
+        |  Settings
+    a.mdl-navigation__link(href="/logout")
+      span.mdl-list__item-primary-content
+        i.material-icons.mdl-list__item-icon power_settings_new
+        |  Logout
+    a.mdl-navigation__link(href="")
+      span.mdl-list__item-primary-content
+        i.material-icons.mdl-list__item-icon person
+        |  Profile
