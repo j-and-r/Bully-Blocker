@@ -1,0 +1,22 @@
+//output:../create-post.html
+html
+  head
+    link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet", href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css")
+    script(defer, src="https://code.getmdl.io/1.3.0/material.min.js")
+    link(rel="stylesheet", href="./static/create-post.min.css")
+    script(src="./static/js/create-post.js")
+    title Post | Bully Blocker
+  body
+  div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+    include ./components/signed-in-nav.jade
+    main.mdl-layout__content
+      h1 Post
+      form(action="/twitter-post", method="post", id="form")
+        textarea(name="body", cols="40", rows="5", id="post-body", maxlength="140")
+        p#count 0/140
+        div.button-wrap
+          a.button(href="javascript:{}", onclick="document.getElementById('form').submit(); return false;") POST
+        
+      
+      

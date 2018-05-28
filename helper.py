@@ -3,6 +3,7 @@ import tweepy
 import firebase_admin
 import json
 import pyrebase
+import requests
 from firebase_admin import credentials
 from firebase_admin.auth import *
 from functools import wraps
@@ -30,6 +31,17 @@ def twitter_feed(auth):
     tweets = api.home_timeline()
     return tweets
 
+def post_twitter(auth):
+    api = tweepy.API(auth)
+    err = ""
+
+    try:
+        api.update_status('Updating using OAuth authentication via Tweepy!')
+    except Exception as e:
+        err = e
+
+    return e
+    
 def rate(tweet, n_words, p_words):
     string = tweet.lower()
     n_count = 0
@@ -65,11 +77,13 @@ def twitter_pictures(status):
 
     return media_files
 
-# def login_required(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kws):
-#         if not 'user' in session:
-#             # return redirect("/sign-in")
-#             return "You have been stopped!"
-#         return f(*args, **kws)
-#     return decorated_function
+def moderate(text, key):
+    print("Started Moderating...")
+    headers = {
+        # Request headers
+        'Content-Type': 'text/plain',
+        'Ocp-Apim-Subscription-Key': key,
+    }
+    request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
+    r = requests.post(request_url, data=text, headers=headers)
+    return r.json()

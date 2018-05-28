@@ -28,6 +28,8 @@ consumer_key = os.environ['TWITTER_KEY']
 consumer_secret = os.environ['TWITTER_SECRET']
 port = int(os.environ.get('PORT', 5000))
 redis_password = os.environ.get('REDIS_PASSWORD')
+azure_key = os.environ.get('AZURE_KEY')
+
 
 # WARNING: Setting up Redis session:
 # SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
@@ -95,7 +97,7 @@ def sign_up():
         new_user(firebase, username, email, password)
         user = sign_in_user(email, password)
         session['user'] = user
-        return redirect("/setup")
+        return redirect("/twitter-feed")
 
 @app.route("/logout")
 def logout():
@@ -106,10 +108,12 @@ def logout():
 # WARNING: Front end for logged in users:
 
 @app.route("/setup")
+@login_required
 def setup():
     return render_template("setup.html")
 
 @app.route("/twitter-auth")
+@login_required
 def twitter_auth():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
@@ -122,6 +126,7 @@ def twitter_auth():
     return redirect(redirect_url, code=302)
 
 @app.route("/twitter-callback")
+@login_required
 def twitter_callback():
     if not 'request_token' in session:
         return redirect('/twitter-auth')
@@ -146,7 +151,7 @@ def twitter_callback():
 @login_required
 def feed():
     if not 'access_token' in session or not 'access_secret' in session:
-        return redirect('/setup')
+        return redirect('/twitter-auth')
     key = session['access_token']
     secret = session['access_secret']
 
@@ -161,6 +166,7 @@ def feed():
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
         body = tweet.text
+        moderated = moderate(body, azure_key)
         rating = rate(body, n_words, p_words)
         if float(rating) > 0:
             overall = "pos"
@@ -177,7 +183,30 @@ def feed():
         })
     return render_template("twitter-feed.html", tweets=tweets)
 
+@app.route("/twitter-post", methods=["GET", "POST"])
+@login_required
+def post():
+    if not 'access_token' in session or not 'access_secret' in session:
+        return redirect('/twitter-auth')
+
+    if request.method == "GET":
+        return render_template("create-post.html")
+    else:
+        body = request.form['body']
+
+        key = session['access_token']
+        secret = session['access_secret']
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(key, secret)
+
+        result = post_twitter(auth)
+        if result is not "":
+            return result
+        else:
+            return redirect("/feed")
+
 @app.route("/settings")
+@login_required
 def settings():
     return render_template("settings.html")
 
@@ -191,7 +220,6 @@ def pwd_strength():
     return render_template("password-strength.html")
 
 @app.route("/feed-test")
-@login_required
 def feed_test():
     feed = json.loads(open("feed.txt", "r").read())
     tweets = []
