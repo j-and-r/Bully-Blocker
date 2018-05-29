@@ -5,7 +5,10 @@ window.onload = function() {
       method: 'POST',
       body: JSON.stringify({text: tweet}),
     })
-    .then((resp) => resp.json())
+    .then(function(resp) {
+      console.log(resp);
+      resp.json()
+    })
     .then(function(response) {
       console.info('fetch()', response);
       return response;
