@@ -2,13 +2,15 @@
 html
   head
     link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
-    link(rel="stylesheet", href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css")
-    script(defer, src="https://code.getmdl.io/1.3.0/material.min.js")
+    link(rel="stylesheet", href="./static/mdl/material-design-lite.min.css")
+    script(defer, src="./static/mdl/material.js")
     link(rel="stylesheet", href="./static/feed.min.css")
     title Feed
   div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
     include ./components/nav.jade
     main.mdl-layout__content
+      button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(onclick="javascript:window.location.href='/twitter-post'")
+        i.material-icons add
       .wrap
         {% for tweet in tweets %}
         .post.row 

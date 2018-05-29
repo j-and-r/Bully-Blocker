@@ -1,22 +1,43 @@
+@import "index"
 $box-padding: 3%
 
 body
   background-image: url('./images/iphone.jpg')
   background-size: cover
 
+// Link under the form
+.link-container
+  margin-top: 30px
+  a
+    font-size: 11px
+    letter-spacing: 0.05em
+    text-transform: uppercase
+    text-decoration: none
+    font-weight: bold
+    color: blue
+
+// Error message
+#error
+  color: red
+  font-weight: bold
+  margin: 0px
+
+// Form Container
+.sign_in_wrap
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  background-color: white
+  box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5)
+  width: 300px
+  border-radius: 6px
+  padding-top: $box-padding
+  padding-bottom: $box-padding
+
+// Form
 form
   text-align: center
-
-p
-  margin-top: 30px
-  font-size: 11px
-  color: black
-
-a
-  letter-spacing: 0.05em
-  text-transform: uppercase
-  text-decoration: none
-  font-weight: bold
 
 input
   margin: auto
@@ -43,6 +64,10 @@ input
   color: grey
   text-transform: uppercase
 
+.last-input
+  margin-bottom: 15px
+
+// Button
 .button
   margin: auto
   font-size: 14px
@@ -52,7 +77,8 @@ input
   padding-left: 14px
   padding-right: 14px
   color: white
-  background-color: blue
+  font-weight: bold
+  background-color: $color-accent
   border-radius: 200px
   text-transform: uppercase
   transition: all ease-in-out 300ms
@@ -64,17 +90,4 @@ input
 
 .button-wrap
   margin: auto
-
-.sign_in_wrap
-  position: absolute
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
-  background-color: white
-  box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5)
-  width: 300px
-  border-radius: 6px
-  padding-top: $box-padding
-  padding-bottom: $box-padding
-
-@import "index"
+  margin-top: 23px

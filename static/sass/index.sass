@@ -1,16 +1,19 @@
+@import "../mdl/src/material-design-lite"
 @import "footer"
 
 $nav-height: 64px
 $nav-logo-height: 80px
 $nav-logo-offset: ($nav-height - ($nav-logo-height / 2))
 
+$primary-color: #00c6a9
+
 html
   font-family: arial, sans-serif
   text-align: center
 
 .mdl-layout__header
-  background: white
-  color: darken(rgb(0, 210, 169), 5%)
+  // background: white
+  // color: darken(rgb(0, 210, 169), 5%)
   box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3)
 
 .mdl-layout__drawer-button
@@ -19,7 +22,7 @@ html
   align-items: center
 
   i
-    color: darken(rgb(0, 210, 169), 5%)
+    color: $color-primary-dark
     font-size: 1.2em
 
 
