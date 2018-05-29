@@ -71,7 +71,7 @@ def login_required(f):
 @app.route("/moderate", methods=["POST"])
 def moderate_tweet():
     data = request.data
-    text = json.loads(data)
+    text = json.loads(data)["text"]
     print(text)
     result = moderate(text, azure_key)
 
