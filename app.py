@@ -74,7 +74,10 @@ def moderate_tweet():
     text = json.loads(data)
     print(text)
     result = moderate(text, azure_key)
-    return jsonify(result)
+
+    resp = flask.Response(jsonify(result))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 # WARNING: Pages that don't require users to have account:
 
