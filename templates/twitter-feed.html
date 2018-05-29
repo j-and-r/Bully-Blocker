@@ -2,8 +2,8 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"/>
-    <script defer="defer" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="./static/mdl/material-design-lite.min.css"/>
+    <script defer="defer" src="./static/mdl/material.js"></script>
     <link rel="stylesheet" href="./static/feed.min.css"/>
     <title>Feed</title>
   </head>
@@ -19,6 +19,7 @@
       <nav class="mdl-navigation"><a href="/settings" class="mdl-navigation__link"> <span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">settings</i> Settings</span></a><a href="/logout" class="mdl-navigation__link"><span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">power_settings_new</i> Logout</span></a><a href="" class="mdl-navigation__link"><span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">person</i> Profile</span></a></nav>
     </div>
     <main class="mdl-layout__content">
+      <button onclick="javascript:window.location.href='/twitter-post'" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button>
       <div class="wrap">{% for tweet in tweets %}
         <div class="post row"> 
           <div class="post-margin col col--2-of-16"><img src="{{ tweet.profile_pic }}" class="profile-img"/></div>

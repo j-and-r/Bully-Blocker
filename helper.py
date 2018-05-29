@@ -9,12 +9,18 @@ from firebase_admin.auth import *
 from functools import wraps
 from flask import abort
 
-def new_user(firebase, username, email, password):
+def new_user(firebase, email, password):
+    err = ""
     try:
-        user = create_user(email=email, password=password, display_name=username, app=firebase)
+        user = create_user(email=email, password=password, app=firebase)
     except Exception as e:
+        err = json.loads(": ".join(str(e).split(": ")[1:]))["error"]["message"]
+        err = err.replace("_", " ").lower()
+        err = err.capitalize()
+        if err == "Email exists":
+            err = "Email already in use"
         print(e)
-    print("Created User!")
+    return err
 
 def sign_in_user(email, password):
     firebase = None
@@ -86,5 +92,5 @@ def moderate(text, key):
     }
     text = text.encode('utf-8')
     request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
-    r = requests.post(request_url, data=text, headers=headers)
-    return r.json()
+    r = requests.post(request_url, data=text, headers=headers).json()
+    return r

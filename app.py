@@ -34,6 +34,7 @@ azure_key = os.environ.get('AZURE_KEY')
 # WARNING: Setting up Redis session:
 SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
 SESSION_TYPE = 'redis'
+app.secret_key = "asfa786esdnccs9ehskentmcs"
 app.config.from_object(__name__)
 Session(app)
 
@@ -78,26 +79,29 @@ def about():
 @app.route("/sign-in", methods=["GET", "POST"])
 def sign_in():
     if request.method == "GET":
-        return render_template("sign-in.html")
+        return render_template("sign-in.html", err="")
     else:
         email = request.form['email']
         password = request.form['password']
-        user = sign_in_user(email, password)
+        user, err = sign_in_user(email, password)
         session['user'] = user
         return redirect('/twitter-feed')
 
 @app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
     if request.method == "GET":
-        return render_template("sign-up.html")
+        return render_template("sign-up.html", err="")
     else:
-        username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        new_user(firebase, username, email, password)
-        user = sign_in_user(email, password)
-        session['user'] = user
-        return redirect("/twitter-feed")
+        confirm = request.form['password-confirm']
+        err = new_user(firebase, email, password)
+        if err is not "":
+            return render_template("sign-up.html", err=err)
+        else:
+            user = sign_in_user(email, password)
+            session['user'] = user
+            return redirect("/twitter-feed")
 
 @app.route("/logout")
 def logout():

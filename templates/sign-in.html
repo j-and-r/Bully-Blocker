@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"/>
     <script defer="defer" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script defer="defer" src="./static/js/sign-in.js"></script>
     <link rel="stylesheet" href="./static/sign-in.min.css"/>
     <title>Sign In | Bully Blocker</title>
   </head>
@@ -23,10 +24,11 @@
       <div class="sign_in_wrap">
         <h1>Sign In</h1>
         <form id="form" action="/sign-in" method="post">
-          <input placeholder="email" name="email"/>
-          <input placeholder="password" type="password" name="password"/>
-          <div class="button-wrap"><a href="javascript:{}" onclick="document.getElementById('form').submit(); return false;" class="button">Sign In</a></div>
-          <p> <a href="/sign-up">Don't have an account?</a></p>
+          <input placeholder="email" name="email" id="email"/>
+          <input placeholder="password" type="password" name="password" id="password" class="last-input"/>
+          <p id="error">{{ err }} </p>
+          <div class="button-wrap"><a href="javascript:{}" onclick="submit(); return false;" class="button">Sign In</a></div>
+          <p class="link-container"> <a href="/sign-up">Don't have an account?</a></p>
         </form>
       </div>
     </main>
