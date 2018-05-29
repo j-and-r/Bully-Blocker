@@ -71,8 +71,10 @@ def login_required(f):
 @app.route("/moderate", methods=["POST"])
 def moderate_tweet():
     data = request.data
-    text = json.loads(data)["text"]
+    text = json.loads(data)
+    print(text)
     result = moderate(text, azure_key)
+    return result
 
 # WARNING: Pages that don't require users to have account:
 
