@@ -1,25 +1,22 @@
 window.onload = function() {
 
-  function post(path, params) {
-    method = "post";
-
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-        }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
+  function post(path, tweet) {
+    return fetch('https://bully-blocker.herokuapp.com/moderate', {
+      body: JSON.stringify(tweet), // must match 'Content-Type' header
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, same-origin, *omit
+      headers: {
+        'user-agent': 'Mozilla/4.0 MDN Example',
+        'content-type': 'application/json'
+      },
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, cors, *same-origin
+      redirect: 'follow', // manual, *follow, error
+      referrer: 'no-referrer', // *client, no-referrer
+    })
+    .then(response => response.json())
+    .then(data => response = data)
+    .catch(error => console.error(error));
   }
 
   var textarea = document.getElementById("post-body");
@@ -31,7 +28,8 @@ window.onload = function() {
       var active_id = active_element.getAttribute('id');
       if (active_id == "post-body") {
         var text = active_element.value;
-        console.log(text);
+        result = post("/moderate/", text);
+        console.log(result);
       }
     }
   })
