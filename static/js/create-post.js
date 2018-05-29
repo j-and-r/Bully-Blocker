@@ -2,21 +2,14 @@ window.onload = function() {
 
   function post(path, tweet) {
     return fetch('https://bully-blocker.herokuapp.com/moderate', {
-      body: JSON.stringify(tweet), // must match 'Content-Type' header
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, same-origin, *omit
-      headers: {
-        'user-agent': 'Mozilla/4.0 MDN Example',
-        'content-type': 'application/json'
-      },
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'no-cors', // no-cors, cors, *same-origin
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // *client, no-referrer
+      method: 'POST',
+      body: JSON.stringify({text: tweet})
     })
-    .then(response => response.json())
-    .then(data => response = data)
-    .catch(error => console.error(error));
+    .then((resp) => resp.json())
+    .then(function(response) {
+      console.info('fetch()', response);
+      return response;
+    });
   }
 
   var textarea = document.getElementById("post-body");
