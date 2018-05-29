@@ -75,7 +75,7 @@ def moderate_tweet():
     print(text)
     result = moderate(text, azure_key)
 
-    resp = Response(jsonify(result))
+    resp = Response(result)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
