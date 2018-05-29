@@ -32,8 +32,8 @@ azure_key = os.environ.get('AZURE_KEY')
 
 
 # WARNING: Setting up Redis session:
-# SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
-# SESSION_TYPE = 'redis'
+SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
+SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
 Session(app)
 
