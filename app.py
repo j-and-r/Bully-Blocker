@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, request, jsonify
+from flask import Flask, Response, render_template, redirect, session, request, jsonify
 from flask_session import Session
 import tweepy
 from helper import *
@@ -75,7 +75,7 @@ def moderate_tweet():
     print(text)
     result = moderate(text, azure_key)
 
-    resp = flask.Response(jsonify(result))
+    resp = Response(jsonify(result))
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
