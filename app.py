@@ -91,7 +91,7 @@ def sign_in():
     else:
         email = request.form['email']
         password = request.form['password']
-        user, err = sign_in_user(email, password)
+        user = sign_in_user(email, password)
         session['user'] = user
         return redirect('/twitter-feed')
 
