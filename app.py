@@ -66,6 +66,14 @@ def login_required(f):
         return f(*args, **kws)
     return decorated_function
 
+# WARNING: API routes
+
+@app.route("/moderate", methods=["POST"])
+def moderate_tweet():
+    data = request.data
+    text = json.loads(data)["text"]
+    result = moderate(text, azure_key)
+
 # WARNING: Pages that don't require users to have account:
 
 @app.route("/")
