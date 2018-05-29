@@ -74,7 +74,7 @@ def moderate_tweet():
     text = json.loads(data)
     print(text)
     result = moderate(text, azure_key)
-    return result
+    return jsonify(result)
 
 # WARNING: Pages that don't require users to have account:
 
