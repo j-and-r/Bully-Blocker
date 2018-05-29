@@ -3,7 +3,8 @@ window.onload = function() {
   function post(path, tweet) {
     return fetch('https://bully-blocker.herokuapp.com/moderate', {
       method: 'POST',
-      body: JSON.stringify({text: tweet})
+      body: JSON.stringify({text: tweet}),
+      mode: "no-cors",
     })
     .then((resp) => resp.json())
     .then(function(response) {
