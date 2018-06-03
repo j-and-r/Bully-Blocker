@@ -85,7 +85,6 @@ def twitter_pictures(status):
 def moderate(text, key, thresh, return_type="basic", input_type="user"):
     try:
         headers = {
-            # Request headers
             'Content-Type': 'text/plain',
             'Ocp-Apim-Subscription-Key': key,
         }

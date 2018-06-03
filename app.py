@@ -182,8 +182,12 @@ def feed():
         # TODO: Replace 0.6 with user threshold.
         moderation = moderate(body, azure_key, 0.6, return_type="detailed")
         rating = rate(body, n_words, p_words)
-        # TODO: Replace 0.6 with user threshold.
-        block = moderation["offensive"] > 0.6
+        if "error" in moderation:
+            print(moderation["error"])
+            block = False
+        else:
+            # TODO: Replace 0.6 with user threshold.
+            block = moderation["offensive"] > 0.6
         if float(rating) > 0:
             overall = "pos"
         else:
