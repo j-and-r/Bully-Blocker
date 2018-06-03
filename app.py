@@ -176,13 +176,20 @@ def feed():
     tweets = []
     for tweet in feed:
         pics = twitter_pictures(tweet)
+        if len(pics) > 0:
+            is_video = "video" in pics[0]
+        else:
+            is_video = False
+
         date = tweet.created_at.strftime('%A, %b %Y')
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
+        link = "https://twitter.com/statuses" + tweet.id_str
         body = tweet.text
         # TODO: Replace 0.6 with user threshold.
         moderation = moderate(body, azure_key, 0.6, return_type="detailed")
         rating = rate(body, n_words, p_words)
+
         if "error" in moderation:
             print(moderation["error"])
             block = False
@@ -193,6 +200,7 @@ def feed():
             overall = "pos"
         else:
             overall = "neg"
+
         tweets.append({
             "pics": pics,
             "date": date,
@@ -201,9 +209,12 @@ def feed():
             "body": body,
             "overall": overall,
             "rating": rating,
+            "link": link,
+            "is_video": is_video,
             "moderation": moderation,
             "block": block
         })
+
     return render_template("twitter-feed.html", tweets=tweets)
 
 @app.route("/twitter-post", methods=["GET", "POST"])
