@@ -32,19 +32,21 @@ html
             {% endfor %}
             {% endif %}
             {% if tweet.is_video %}
-            p.message The image below is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;
+            p.message The image above is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;
               a(href="{{ tweet.link }}") {{ tweet.link }}
             {% else %}
             p.message To see this tweet on twitter use this link:&nbsp;
               a(href="{{ tweet.link }}", target="_blank") {{ tweet.link }}
             {% endif %}
+            p Web-E thinks this post {{ tweet.moderate.rating }}. If you think otherwise, please click 
+              a(href="./update-prefs?type='not_blocked'&rating='{{ tweet.moderation.offensive }}'") here
         {% else %}
         .post.row
           .post-body
           p This post has been blocked because it {{ tweet.moderation.rating }}
           p If you think this post is not what we have predicted please cick here.
           p If you actually want to see this sort of post click
-            a(href='./update-prefs?type="feed"&author={{ tweet.username }}') here
+            a(href="./update-prefs?type='blocked'&author='{{ tweet.username }}'&rating='{{ tweet.moderation.offensive }}") here
         {% endif %}
         {% endfor %}
       include ./components/footer.jade
