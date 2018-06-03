@@ -91,6 +91,7 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
         text = text.encode('utf-8')
         request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
         result = requests.post(request_url, data=text, headers=headers).json()
+        print(result)
         if not "Classification" in result:
             if return_type is "basic":
                 return "is fine to post."
