@@ -30,6 +30,7 @@ port = int(os.environ.get('PORT', 5000))
 redis_password = os.environ.get('REDIS_PASSWORD')
 azure_key = os.environ.get('AZURE_KEY')
 
+# print(moderate("Hello World!!! Asshole!!!", azure_key))
 
 # Setting up Redis session:
 SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
