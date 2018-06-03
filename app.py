@@ -177,7 +177,7 @@ def feed():
     for tweet in feed:
         pics = twitter_pictures(tweet)
         if len(pics) > 0:
-            is_video = "video" in pics[0]
+            is_video = "video" in list(pics)[0]
         else:
             is_video = False
 
