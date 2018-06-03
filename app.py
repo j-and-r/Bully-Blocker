@@ -184,7 +184,7 @@ def feed():
         date = tweet.created_at.strftime('%A, %b %Y')
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
-        link = "https://twitter.com/statuses" + tweet.id_str
+        link = "https://twitter.com/statuses/" + tweet.id_str
         body = tweet.text
         # TODO: Replace 0.6 with user threshold.
         moderation = moderate(body, azure_key, 0.6, return_type="detailed")
