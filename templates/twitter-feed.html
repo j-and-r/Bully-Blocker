@@ -10,7 +10,7 @@
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <!--output:../../signed-in-nav.html-->
     <header class="mdl-layout__header">
-      <div class="mdl-layout__header-row"><a href="/"><img src="static/icons/logo.png" class="nav-logo"/></a>
+      <div class="mdl-layout__header-row"><img src="static/icons/logo.png" class="nav-logo"/>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation"><a href="/about" class="mdl-navigation__link">About</a><a href="/logout" class="mdl-navigation__link">Sign out </a><a href="/profile" class="mdl-navigation__link"><img src="static/icons/blank-profile.png" width="40px" style="border-radius: 50%; margin-right: 10px" class="profile-image"/></a>
         </nav>
@@ -36,7 +36,10 @@
               <div class="ext {{ tweet.overall }}">
                 <div style="width: {{ tweet.rating }}%" class="bar"></div>
               </div>
-            </div>{% if tweet.pics|length > 0 %}
+            </div>{% if tweet.is_video %}
+            <p class="message">The image below is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;<a href="{{ tweet.link }}">{{ tweet.link }}</a></p>{% else %}
+            <p class="message">To see this tweet on twitter use this link:&nbsp;<a href="{{ tweet.link }}" target="_blank">{{ tweet.link }}</a></p>{% endif %}
+            {% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
             {% endif %}
           </div>

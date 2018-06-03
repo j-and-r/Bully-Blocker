@@ -26,6 +26,13 @@ html
             .graph.cf
               .ext(class="{{ tweet.overall }}")
                 .bar(style="width: {{ tweet.rating }}%")
+            {% if tweet.is_video %}
+            p.message The image below is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;
+              a(href="{{ tweet.link }}") {{ tweet.link }}
+            {% else %}
+            p.message To see this tweet on twitter use this link:&nbsp;
+              a(href="{{ tweet.link }}", target="_blank") {{ tweet.link }}
+            {% endif %}
             {% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}
             img.post-img(src="{{ pic }}")
