@@ -42,7 +42,7 @@
             {% if tweet.is_video %}
             <p class="message">The image above is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;<a href="{{ tweet.link }}">{{ tweet.link }}</a></p>{% else %}
             <p class="message">To see this tweet on twitter use this link:&nbsp;<a href="{{ tweet.link }}" target="_blank">{{ tweet.link }}</a></p>{% endif %}
-            <p>Web-E thinks this post {{ tweet.moderation.rating }}. If you think otherwise, please click <a href="./update-prefs?type='not_blocked'&amp;rating='{{ tweet.moderation.offensive }}'">here</a></p>
+            <p class="message">Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click <a href="./update-prefs?type='not_blocked'&amp;rating='{{ tweet.moderation.offensive }}'">here</a></p>
           </div>
         </div>{% else %}
         <div class="post row">

@@ -38,7 +38,7 @@ html
             p.message To see this tweet on twitter use this link:&nbsp;
               a(href="{{ tweet.link }}", target="_blank") {{ tweet.link }}
             {% endif %}
-            p Web-E thinks this post {{ tweet.moderation.rating }}. If you think otherwise, please click 
+            p.message Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click 
               a(href="./update-prefs?type='not_blocked'&rating='{{ tweet.moderation.offensive }}'") here
         {% else %}
         .post.row
