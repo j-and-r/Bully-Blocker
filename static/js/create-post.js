@@ -1,32 +1,66 @@
 window.onload = function() {
 
-  function post(path, tweet) {
-    return fetch('https://bully-blocker.herokuapp.com/moderate', {
-      method: 'POST',
-      body: JSON.stringify({text: tweet}),
-    })
-    .then(function(resp) {
-      console.log(resp);
-      resp.json()
-    })
-    .then(function(response) {
-      console.info('fetch()', response);
-      return response;
-    });
+  var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+      var anHttpRequest = new XMLHttpRequest();
+      anHttpRequest.onreadystatechange = function() {
+        if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+          aCallback(anHttpRequest.responseText);
+      }
+
+      anHttpRequest.open( "GET", aUrl, true );
+      anHttpRequest.send( null );
+    }
   }
 
   var textarea = document.getElementById("post-body");
   var count = document.getElementById("count");
+  var rating_element = document.getElementById('rating');
+  var client = new HttpClient();
+  var last_moderate = 0;
+  var last_text= "";
 
-  document.addEventListener('keypress', function(e) {
-    var active_element = document.activeElement;
-    if (active_element.hasAttribute("id")) {
-      var active_id = active_element.getAttribute('id');
-      if (active_id == "post-body") {
-        var text = active_element.value;
-        result = post("/moderate/", text);
-        console.log(result);
+  if (!Date.now) {
+    Date.now = function() { return new Date().getTime(); }
+  }
+
+  var moderate = function() {
+    var time = Math.floor(Date.now() / 1000);
+    var text = document.getElementById('post-body').value;
+    var modified = text.replace( /\s/g, "");
+    var text_diff = diff(text, last_text);
+    var difference = "";
+
+    for (var i = 0; i < text_diff.length; i++) {
+      var e = text_diff[i];
+      if (e[0] != 0) {
+        difference += e[1];
       }
+    }
+
+    if (last_text != text && modified != last_text && (difference.length > 4 || time - last_moderate > 3)) {
+
+      last_moderate = time;
+      last_text = text;
+
+      if (text == "") {
+        text = "%20"
+      }
+
+      var result = client.get("http://127.0.0.1:5000/moderate?text=" +  text, function(response) {
+        console.log(response);
+        rating_element.innerHTML = response;
+      });
+    }
+  }
+
+  setInterval(function() {
+    moderate();
+  }, 1000);
+
+  document.addEventListener('keyup', function(e) {
+    if (e.key == "Space") {
+      moderate();
     }
   })
 

@@ -10,7 +10,7 @@
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <!--output:../../nav.html-->
     <header class="mdl-layout__header">
-      <div class="mdl-layout__header-row"><img src="static/icons/logo.png" class="nav-logo"/>
+      <div class="mdl-layout__header-row"><a href="/"><img src="static/icons/logo.png" class="nav-logo"/></a>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation"><a href="/about" class="mdl-navigation__link">About</a><a href="/sign-in" class="mdl-navigation__link">Sign In</a><a href="/sign-up" class="primary_action">Sign Up</a></nav>
       </div>
@@ -20,7 +20,9 @@
     </div>
     <main class="mdl-layout__content">
       <button onclick="javascript:window.location.href='/twitter-post'" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button>
-      <div class="wrap">{% for tweet in tweets %}
+      <div class="wrap">
+        {% for tweet in tweets %}
+        {% if not tweet.block %}
         <div class="post row"> 
           <div class="post-margin col col--2-of-16"><img src="{{ tweet.profile_pic }}" class="profile-img"/></div>
           <div class="post-body col col--14-of-16">
@@ -37,7 +39,14 @@
             {% for pic in tweet.pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
             {% endif %}
           </div>
-        </div>{% endfor %}
+        </div>{% else %}
+        <div class="post row">
+          <div class="post-body"></div>
+          <p>This post has been blocked because it {{ tweet.moderation.rating }}</p>
+          <p>If you think this post is not what we have predicted please cick here.</p>
+          <p>If you actually want to see this sort of post click<a href="./update-prefs?type=&quot;feed&quot;&amp;author={{ tweet.username }}">here</a></p>
+        </div>{% endif %}
+        {% endfor %}
       </div>
       <!--output:../../footer.html-->
       <div class="footer">
