@@ -71,7 +71,8 @@ def login_required(f):
 @app.route("/moderate", methods=["GET"])
 def moderate_tweet():
     text = request.args.get("text")
-    result = moderate(text, azure_key)
+    # TODO: Replace 0.7 with user threshold or other meaningful value.
+    result = moderate(text, azure_key, 0.7)
     return result
 
 # Pages that don't require users to have account:
@@ -178,7 +179,8 @@ def feed():
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
         body = tweet.text
-        moderation = moderate(body, azure_key, return_type="detailed")
+        # TODO: Replace 0.6 with user threshold.
+        moderation = moderate(body, azure_key, 0.6, return_type="detailed")
         rating = rate(body, n_words, p_words)
         # TODO: Replace 0.6 with user threshold.
         block = moderation["offensive"] > 0.6

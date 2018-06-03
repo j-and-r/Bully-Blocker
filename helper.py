@@ -82,54 +82,71 @@ def twitter_pictures(status):
 
     return media_files
 
-def moderate(text, key, return_type="basic"):
-    headers = {
-        # Request headers
-        'Content-Type': 'text/plain',
-        'Ocp-Apim-Subscription-Key': key,
-    }
-    text = text.encode('utf-8')
-    request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
-    result = requests.post(request_url, data=text, headers=headers).json()
-    review = result["Classification"]["ReviewRecommended"]
-    offensive = result["Classification"]["Category3"]["Score"]
-    suggestive = result["Classification"]["Category2"]["Score"]
-    sexual = result["Classification"]["Category1"]["Score"]
-    terms = result["Terms"]
+def moderate(text, key, thresh, return_type="basic", input_type="user"):
+    try:
+        headers = {
+            # Request headers
+            'Content-Type': 'text/plain',
+            'Ocp-Apim-Subscription-Key': key,
+        }
+        text = text.encode('utf-8')
+        request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
+        result = requests.post(request_url, data=text, headers=headers).json()
+        if not "Classification" in result:
+            if return_type is "basic":
+                return "is fine to post."
+            return {
+                "rating": "is fine to post.",
+                "error": "too small to moderate."
+            }
+        review = result["Classification"]["ReviewRecommended"]
+        offensive = result["Classification"]["Category3"]["Score"]
+        suggestive = result["Classification"]["Category2"]["Score"]
+        sexual = result["Classification"]["Category1"]["Score"]
+        terms = result["Terms"]
 
-    rating = "is fine to post."
+        rating = ""
+        if input_type is "user":
+            rating = "is fine to post."
 
-    if offensive > 0.7:
-        if terms is None and review:
-            rating = "could be offensive to some people"
-        elif terms is None:
-            rating = "slightly offensive"
-        elif terms and not review:
-            rating = "contains explicit language"
-        elif terms and review:
-            rating = "is offensive and or inappropriate"
+        if offensive > thresh:
+            if terms is None and review:
+                rating = "could be offensive to some people"
+            elif terms is None:
+                rating = "slightly offensive"
+            elif terms and not review:
+                rating = "contains explicit language"
+            elif terms and review:
+                rating = "is offensive and or inappropriate"
+            else:
+                rating = "Unknown"
+
+        if suggestive > thresh and sexual < thresh:
+            rating += " and could be sexually suggestive."
+        elif suggestive > thresh and sexual > thresh:
+            rating += " and could be sexually explicit and suggestive or adult."
+        elif sexual > thresh:
+            rating += " and could be sexually explicit or adult."
         else:
-            rating = "Unknown"
+            rating += "."
 
-    if suggestive > 0.7 and sexual < 0.7:
-        rating += " and could be sexually suggestive."
-    elif suggestive > 0.7 and sexual > 0.7:
-        rating += " and could be sexually explicit and suggestive or adult."
-    elif sexual > 0.7:
-        rating += " and could be sexually explicit or adult."
-    else:
-        rating += "."
 
-    data = {
-        "rating": rating,
-        "offensive": offensive,
-        "suggestive": suggestive,
-        "sexual": sexual
-    }
+        data = {
+            "rating": rating,
+            "offensive": offensive,
+            "suggestive": suggestive,
+            "sexual": sexual
+        }
 
-    if return_type is "basic":
-        return rating
-    elif return_type is "detailed":
-        return data
-    else:
-        return "Invalid return type"
+        if return_type is "basic":
+            return rating
+        elif return_type is "detailed":
+            return data
+        else:
+            return "Invalid return type"
+    except e as Exception:
+        print(e)
+        if return_type is "basic":
+            return "is fine to post."
+        else:
+            return {"error": "An error has occured"}
