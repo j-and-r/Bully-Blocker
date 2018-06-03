@@ -93,4 +93,5 @@ def moderate(text, key):
     text = text.encode('utf-8')
     request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
     r = requests.post(request_url, data=text, headers=headers).json()
+    
     return r
