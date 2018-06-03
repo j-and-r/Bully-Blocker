@@ -25,7 +25,7 @@ html
             p {{ tweet.body }}
             .graph.cf
               .ext(class="{{ tweet.overall }}")
-                .bar(style="width: {{ tweet.rating }}%")
+                .bar(style="width: {{ 100 - tweet.moderation.offensive * 100 }}%")
             {% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}
             img.post-img(src="{{ pic }}")
@@ -33,9 +33,11 @@ html
             {% endif %}
             {% if tweet.is_video %}
             p.message The image above is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;
+              br
               a(href="{{ tweet.link }}") {{ tweet.link }}
             {% else %}
             p.message To see this tweet on twitter use this link:&nbsp;
+              br
               a(href="{{ tweet.link }}", target="_blank") {{ tweet.link }}
             {% endif %}
             p.message Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click 
