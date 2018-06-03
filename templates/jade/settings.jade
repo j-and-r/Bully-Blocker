@@ -11,21 +11,34 @@ html
     main.mdl-layout__content
       .wrap
         h1 Settings 
-        h5 Appearance     
+        h5 Appearance Settings     
         ul.demo-list-control.mdl-list
-          li.mdl-list__item
+          li.mdl-list__item.mdl-list__item--three-line
             span.mdl-list__item-primary-content
-              i.material-icons.icon brightness_medium
-              | Dark Theme
+              i.material-icons.mdl-list__item-icon(style="font-size: 40px") brightness_medium
+              span Dark Theme
+              span.mdl-list__item-text-body dark theme for less strain on eyes at night
             span.mdl-list__item-secondary-action
               label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="list-switch-1")
                 input.mdl-switch__input(type="checkbox", id="list-switch-1")  
-          li.ul.demo-list-control.mdl-list
-            li.mdl-list__item
-              span.mdl-list__item-primary-content
-                i.material-icons.icon color_lens
-                | background
-              span.mdl-list__item-secondary-action
-                label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="list-switch-1")
-                  input.mdl-switch__input(type="checkbox", id="list-switch-1")        
+        h5 Content Settings 
+        ul.demo-list-control.mdl-list
+          li.mdl-list__item.mdl-list__item--three-line
+            span.mdl-list__item-primary-content
+              i.material-icons.mdl-list__item-icon(style="font-size: 40px") visibility
+              span Threshold
+              span.mdl-list__item-text-body Choose what you want to see
+            span.mdl-list__item-secondary-action
+              p(style="width:320px")
+                input.mdl-slider.mdl-js-slider(type="range", id="threshold-range", min="0", max="100", value="60", tabindex="0")
+          li.mdl-list__item.mdl-list__item--three-line
+            span.mdl-list__item-primary-content
+              i.material-icons.mdl-list__item-icon(style="font-size: 40px") playlist_add_check
+              span Whitelist
+              span.mdl-list__item-text-body Choose who you don't want to moderate
+            span.mdl-list__item-secondary-action
+              form(action="#")
+                div.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                  input.mdl-textfield__input(type="text", id="sample3")
+                  label.mdl-textfield__label(for="sample3") Add user
       include ./components/footer.jade
