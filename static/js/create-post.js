@@ -1,38 +1,66 @@
 window.onload = function() {
 
-  function post(path, params) {
-    method = "post";
+  var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+      var anHttpRequest = new XMLHttpRequest();
+      anHttpRequest.onreadystatechange = function() {
+        if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+          aCallback(anHttpRequest.responseText);
+      }
 
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-        }
+      anHttpRequest.open( "GET", aUrl, true );
+      anHttpRequest.send( null );
     }
-
-    document.body.appendChild(form);
-    form.submit();
   }
 
   var textarea = document.getElementById("post-body");
   var count = document.getElementById("count");
+  var rating_element = document.getElementById('rating');
+  var client = new HttpClient();
+  var last_moderate = 0;
+  var last_text= "";
 
-  document.addEventListener('keypress', function(e) {
-    var active_element = document.activeElement;
-    if (active_element.hasAttribute("id")) {
-      var active_id = active_element.getAttribute('id');
-      if (active_id == "post-body") {
-        var text = active_element.value;
-        console.log(text);
+  if (!Date.now) {
+    Date.now = function() { return new Date().getTime(); }
+  }
+
+  var moderate = function() {
+    var time = Math.floor(Date.now() / 1000);
+    var text = document.getElementById('post-body').value;
+    var modified = text.replace( /\s/g, "");
+    var text_diff = diff(text, last_text);
+    var difference = "";
+
+    for (var i = 0; i < text_diff.length; i++) {
+      var e = text_diff[i];
+      if (e[0] != 0) {
+        difference += e[1];
       }
+    }
+
+    if (last_text != text && modified != last_text && (difference.length > 4 || time - last_moderate > 3)) {
+
+      last_moderate = time;
+      last_text = text;
+
+      if (text == "") {
+        text = "%20"
+      }
+
+      var result = client.get("http://127.0.0.1:5000/moderate?text=" +  text, function(response) {
+        console.log(response);
+        rating_element.innerHTML = response;
+      });
+    }
+  }
+
+  setInterval(function() {
+    moderate();
+  }, 1000);
+
+  document.addEventListener('keyup', function(e) {
+    if (e.key == "Space") {
+      moderate();
     }
   })
 

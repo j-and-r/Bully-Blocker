@@ -13,6 +13,7 @@ html
         i.material-icons add
       .wrap
         {% for tweet in tweets %}
+        {% if not tweet.block %}
         .post.row 
           .post-margin.col.col--2-of-16
             img.profile-img(src="{{ tweet.profile_pic }}")
@@ -30,5 +31,13 @@ html
             img.post-img(src="{{ pic }}")
             {% endfor %}
             {% endif %}
+        {% else %}
+        .post.row
+          .post-body
+          p This post has been blocked because it {{ tweet.moderation.rating }}
+          p If you think this post is not what we have predicted please cick here.
+          p If you actually want to see this sort of post click
+            a(href='./update-prefs?type="feed"&author={{ tweet.username }}') here
+        {% endif %}
         {% endfor %}
       include ./components/footer.jade

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, request, jsonify
+from flask import Flask, Response, render_template, redirect, session, request, jsonify
 from flask_session import Session
 import tweepy
 from helper import *
@@ -11,7 +11,7 @@ import facebook
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# WARNING: Setup files
+# Setup files
 with open("creds.json", "w+") as f:
     f.write(os.environ['CREDS'])
     f.close()
@@ -23,7 +23,7 @@ with open("pyrebase.json", "w+") as f:
 cred = credentials.Certificate("creds.json")
 firebase = firebase_admin.initialize_app(cred, name="bully-blocker")
 
-# WARNING: Fetching env vars
+# Fetching env vars
 consumer_key = os.environ['TWITTER_KEY']
 consumer_secret = os.environ['TWITTER_SECRET']
 port = int(os.environ.get('PORT', 5000))
@@ -32,14 +32,20 @@ azure_key = os.environ.get('AZURE_KEY')
 
 # print(moderate("Hello World!!! Asshole!!!", azure_key))
 
+<<<<<<< HEAD
 # WARNING: Setting up Redis session:
 # SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
 # SESSION_TYPE = 'redis'
+=======
+# Setting up Redis session:
+SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
+SESSION_TYPE = 'redis'
+>>>>>>> 3d85e201a12cf37cc560491e92dc9e4e2efb8e5c
 app.secret_key = "asfa786esdnccs9ehskentmcs"
 app.config.from_object(__name__)
 Session(app)
 
-# WARNING: Setting up dictionaries
+# Setting up dictionaries
 p_words = set()
 n_words = set()
 
@@ -67,15 +73,16 @@ def login_required(f):
         return f(*args, **kws)
     return decorated_function
 
-# WARNING: API routes
+# API routes
 
-@app.route("/moderate", methods=["POST"])
+@app.route("/moderate", methods=["GET"])
 def moderate_tweet():
-    data = request.data
-    text = json.loads(data)["text"]
-    result = moderate(text, azure_key)
+    text = request.args.get("text")
+    # TODO: Replace 0.7 with user threshold or other meaningful value.
+    result = moderate(text, azure_key, 0.7)
+    return result
 
-# WARNING: Pages that don't require users to have account:
+# Pages that don't require users to have account:
 
 @app.route("/")
 def index():
@@ -92,7 +99,7 @@ def sign_in():
     else:
         email = request.form['email']
         password = request.form['password']
-        user, err = sign_in_user(email, password)
+        user = sign_in_user(email, password)
         session['user'] = user
         return redirect('/twitter-feed')
 
@@ -118,7 +125,7 @@ def logout():
         session['user'] = None
     return redirect("/sign-in")
 
-# WARNING: Front end for logged in users:
+# Front end for logged in users:
 
 @app.route("/setup")
 @login_required
@@ -179,8 +186,15 @@ def feed():
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
         body = tweet.text
-        moderated = moderate(body, azure_key)
+        # TODO: Replace 0.6 with user threshold.
+        moderation = moderate(body, azure_key, 0.6, return_type="detailed")
         rating = rate(body, n_words, p_words)
+        if "error" in moderation:
+            print(moderation["error"])
+            block = False
+        else:
+            # TODO: Replace 0.6 with user threshold.
+            block = moderation["offensive"] > 0.6
         if float(rating) > 0:
             overall = "pos"
         else:
@@ -191,8 +205,9 @@ def feed():
             "username": username,
             "profile_pic": profile_pic,
             "body": body,
-            "rating": abs(float(rating)),
-            "overall": overall
+            "overall": overall,
+            "moderation": moderation,
+            "block": block
         })
     return render_template("twitter-feed.html", tweets=tweets)
 
@@ -223,7 +238,7 @@ def post():
 def settings():
     return render_template("settings.html")
 
-# TODO: Tests
+# Tests
 @app.route("/generate-password")
 def gen_pword():
     return generate_password()
@@ -256,8 +271,7 @@ def feed_test():
         })
     return render_template("twitter-feed.html", tweets=tweets)
 
-app.run(host="0.0.0.0", port=port)
-
+app.run(host="0.0.0.0", port=port, debug=True)
 
 # @app.route("/facebook-auth")
 # def facebook_auth():
