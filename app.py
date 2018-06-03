@@ -199,6 +199,7 @@ def feed():
             "profile_pic": profile_pic,
             "body": body,
             "overall": overall,
+            "rating": rating,
             "moderation": moderation,
             "block": block
         })
