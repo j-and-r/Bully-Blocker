@@ -36,12 +36,12 @@
               <div class="ext {{ tweet.overall }}">
                 <div style="width: {{ tweet.rating }}%" class="bar"></div>
               </div>
-            </div>{% if tweet.is_video %}
-            <p class="message">The image below is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;<a href="{{ tweet.link }}">{{ tweet.link }}</a></p>{% else %}
-            <p class="message">To see this tweet on twitter use this link:&nbsp;<a href="{{ tweet.link }}" target="_blank">{{ tweet.link }}</a></p>{% endif %}
-            {% if tweet.pics|length > 0 %}
+            </div>{% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
             {% endif %}
+            {% if tweet.is_video %}
+            <p class="message">The image below is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;<a href="{{ tweet.link }}">{{ tweet.link }}</a></p>{% else %}
+            <p class="message">To see this tweet on twitter use this link:&nbsp;<a href="{{ tweet.link }}" target="_blank">{{ tweet.link }}</a></p>{% endif %}
           </div>
         </div>{% else %}
         <div class="post row">
