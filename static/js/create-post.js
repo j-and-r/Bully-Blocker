@@ -47,7 +47,7 @@ window.onload = function() {
         text = "%20"
       }
 
-      var result = client.get("http://127.0.0.1:5000/moderate?text=" +  text, function(response) {
+      var result = client.get("https://bully-blocker.herokuapp.com/moderate?text=" +  text, function(response) {
         console.log(response);
         rating_element.innerHTML = response;
       });

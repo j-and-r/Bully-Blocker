@@ -29,6 +29,7 @@ consumer_secret = os.environ['TWITTER_SECRET']
 port = int(os.environ.get('PORT', 5000))
 redis_password = os.environ.get('REDIS_PASSWORD')
 azure_key = os.environ.get('AZURE_KEY')
+hive_key = os.environ.get('HIVE_KEY')
 
 # print(moderate("Hello World!!! Asshole!!!", azure_key))
 
@@ -174,28 +175,31 @@ def feed():
 
     feed = twitter_feed(auth)
     tweets = []
+    bodies = []
+
     for tweet in feed:
         pics = twitter_pictures(tweet)
-        if len(pics) > 0:
-            is_video = "video" in list(pics)[0]
-        else:
-            is_video = False
-
         date = tweet.created_at.strftime('%A, %b %Y')
         username = tweet.user.name
         profile_pic = tweet.user.profile_image_url
         link = "https://twitter.com/statuses/" + tweet.id_str
         body = tweet.text
+        bodies.append(body)
+
         # TODO: Replace 0.6 with user threshold.
-        moderation = moderate(body, azure_key, 0.6, return_type="detailed")
         rating = rate(body, n_words, p_words)
 
+        if len(pics) > 0:
+            is_video = "video" in list(pics)[0]
+        else:
+            is_video = False
+
         if "error" in moderation:
-            print(moderation["error"])
             block = False
         else:
             # TODO: Replace 0.6 with user threshold.
             block = moderation["offensive"] > 0.6
+
         if float(rating) > 0:
             overall = "pos"
         else:
@@ -211,7 +215,6 @@ def feed():
             "rating": rating,
             "link": link,
             "is_video": is_video,
-            "moderation": moderation,
             "block": block
         })
 
@@ -276,6 +279,11 @@ def feed_test():
             "overall": overall
         })
     return render_template("twitter-feed.html", tweets=tweets)
+
+@app.route("/hive")
+def hive():
+    print(hive_key)
+    return jsonify(moderate_hive("Crap", hive_key))
 
 app.run(host="0.0.0.0", port=port, debug=True)
 

@@ -97,7 +97,10 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
                 return "is fine to post."
             return {
                 "rating": "is fine to post.",
-                "error": "too small to moderate."
+                "moderation": {
+                    "offensive": "an error has occured. This feature is still in beta and is not perfect yet",
+                },
+                "error": "Something has happened."
             }
         review = result["Classification"]["ReviewRecommended"]
         offensive = result["Classification"]["Category3"]["Score"]
@@ -150,3 +153,34 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
             return "is fine to post."
         else:
             return {"error": "An error has occured"}
+
+def moderate_hive(tweets, key):
+    # bodies = []
+    # for tweet in tweets:
+    #     bodies.append(tweet)
+
+    data = [{
+        "id": "ab76sbe3idbs9",
+        "type": "twitter_post",
+        "content": [
+            {"text": tweets}
+        ],
+        "lang": ""
+    }]
+
+    # for tweet in tweets:
+    #     body = tweet["body"]
+    #     data.append({
+    #         "id": "ab76sbe3idbs9",
+    #         "type": "twitter_post",
+    #         "content": [
+    #             {"text": body}
+    #         ],
+    #         "context": [],
+    #         "lang": ""
+    #     })
+
+    data = json.dumps(data)
+    url = "http://2hive.org/api/?apikey=" + key + "&data=" + data
+    response = requests.get(url).json()
+    return response
