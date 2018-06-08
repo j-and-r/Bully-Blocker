@@ -244,7 +244,7 @@ def feed():
                     tweets[index]["moderation"]["rating"] = "not offensive in any way."
             batch = []
 
-    if not batch is []:
+    if not len(batch) is 0:
         batch_size = len(batch)
         print("Batch Size: {0}".format(batch_size))
         result = batch_moderate(batch, azure_key, 0.6)
