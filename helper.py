@@ -147,10 +147,10 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
             return data
         else:
             return "Invalid return type"
-    except e as Exception:
+    except Exception as e:
         print(e)
         if return_type is "basic":
-            return "is fine to post."
+            return "is fine to post. An error has occured. This is probably because Bully Blocker is still in beta. To report this error click <a href='./report?type=0'>here</a>."
         else:
             return {"error": "An error has occured"}
 

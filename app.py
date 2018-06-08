@@ -1,5 +1,6 @@
 from flask import Flask, Response, render_template, redirect, session, request, jsonify
 from flask_session import Session
+from flask_cors import CORS
 import tweepy
 from helper import *
 import os
@@ -10,6 +11,7 @@ import facebook
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+CORS(app, resources={r'/*': {'origins': 'http://bully-blocker.herokuapp.com'}})
 
 # Setup files
 with open("creds.json", "w+") as f:
@@ -75,7 +77,7 @@ def moderate_tweet():
     text = request.args.get("text")
     # TODO: Replace 0.7 with user threshold or other meaningful value.
     result = moderate(text, azure_key, 0.7)
-    return result
+    return result, 200
 
 # Pages that don't require users to have account:
 
