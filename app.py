@@ -223,6 +223,35 @@ def feed():
             "is_video": is_video,
             "block": block
         })
+    batch = []
+    batch_size = 3
+    for i in range(len(bodies)):
+        batch.append(bodies[i])
+        if i % batch_size is batch_size - 1:
+            # TODO: Replace 0.6 with user threshold.
+            result = batch_moderate(batch, azure_key, 0.6)
+            if result["multiple"]:
+                for j in range(batch_size):
+                    index = i-((batch_size-1)-j)
+                    tweets[index]["moderation"] = result[j]
+            else:
+                for j in range(batch_size):
+                    index = i-((batch_size-1)-j)
+                    tweets[index]["moderation"] = result["original"]
+                    tweets[index]["moderation"]["rating"] = "not offensive in any way."
+        batch = []
+
+    if not batch is []:
+        result = batch_moderate(batch, azure_key, 0.6)
+        if result["multiple"]:
+            for j in range(batch_size):
+                index = i-((batch_size-1)-j)
+                tweets[index]["moderation"] = result[j]
+        else:
+            for j in range(batch_size):
+                index = i-((batch_size-1)-j)
+                tweets[index]["moderation"] = result["original"]
+                tweets[index]["moderation"]["rating"] = "not offensive in any way."
 
     return render_template("twitter-feed.html", tweets=tweets)
 

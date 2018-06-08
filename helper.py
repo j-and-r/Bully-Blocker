@@ -184,3 +184,25 @@ def moderate_hive(tweets, key):
     url = "http://2hive.org/api/?apikey=" + key + "&data=" + data
     response = requests.get(url).json()
     return response
+
+def batch_moderate(batch, key, thresh):
+    text = ". ".join(batch)
+    moderation = moderate(text, key, thresh, return_type="detailed", input_type="feed")
+    if "error" in moderation:
+        print(moderation["error"])
+        if moderation["error"]["message"] is "Rate limit is exceeded. Try again in 1 seconds.":
+            moderation = batch_moderate(batch, key, thresh)
+    offensive = moderation["offensive"]
+    sexual = moderation["sexual"]
+    suggestive = moderation["suggestive"]
+    if offensive > thresh:
+        result = []
+        for text in batch:
+            result.append(moderate(text, key, thresh, return_type="detailed", input_type="feed"))
+    else:
+        result = "fine"
+    data = {
+        "multiple": not result is "fine",
+        "result": result,
+        "original": moderation
+    }
