@@ -199,6 +199,8 @@ def feed():
         if "error" in moderation:
             block = False
             print(moderation["error"])
+            if moderation["error"]["message"] is "Rate limit is exceeded. Try again in 1 seconds.":
+                moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
         else:
             # TODO: Replace 0.6 with user threshold.
             block = moderation["offensive"] > 0.6
