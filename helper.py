@@ -190,9 +190,10 @@ def batch_moderate(batch, key, thresh):
     moderation = moderate(text, key, thresh, return_type="detailed", input_type="feed")
     if "error" in moderation:
         print(moderation["error"])
-        if moderation["error"]["message"] is "Rate limit is exceeded. Try again in 1 seconds.":
+        if moderation["error"]["message"] == "Rate limit is exceeded. Try again in 1 seconds.":
             print("Rate Limit")
             return batch_moderate(batch, key, thresh)
+        return batch_moderate(batch, key, thresh)
         print(moderation["error"]["message"])
     offensive = moderation["offensive"]
     sexual = moderation["sexual"]
