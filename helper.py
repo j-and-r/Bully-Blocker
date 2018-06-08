@@ -4,6 +4,7 @@ import firebase_admin
 import json
 import pyrebase
 import requests
+import time
 from firebase_admin import credentials
 from firebase_admin.auth import *
 from functools import wraps
@@ -191,6 +192,7 @@ def batch_moderate(batch, key, thresh):
     if "error" in moderation:
         print(moderation["error"])
         if moderation["error"]["message"] == "Rate limit is exceeded. Try again in 1 seconds.":
+            time.sleep(1)
             print("Rate Limit")
             return batch_moderate(batch, key, thresh)
         return batch_moderate(batch, key, thresh)
