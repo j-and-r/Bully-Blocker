@@ -5,3 +5,4 @@ redis
 pyrebase
 firebase_admin
 facebook-sdk
+flask_cors
