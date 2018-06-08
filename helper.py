@@ -204,7 +204,7 @@ def batch_moderate(batch, key, thresh):
     if offensive > thresh:
         result = []
         for text in batch:
-            result.append(batch_moderate([text], key, thresh))
+            result.append(single_moderate(text, key, thresh))
     else:
         result = "fine"
     data = {
@@ -214,3 +214,12 @@ def batch_moderate(batch, key, thresh):
     }
     time.sleep(1)
     return data
+
+def single_moderate(text, key, thresh):
+    print("Single Moderate!!")
+    moderation = moderate(text, key, thresh, return_type="detailed", input_type="feed")
+    if "error" in moderation:
+        if moderation["error"]["statusCode"] == 429:
+            time.sleep(1)
+            moderation = single_moderate(batch, key, thresh)
+    return moderation
