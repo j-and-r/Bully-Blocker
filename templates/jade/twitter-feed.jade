@@ -36,7 +36,7 @@ html
               br
               a(href="{{ tweet.link }}") {{ tweet.link }}
             {% else %}
-            p.message To see this tweet on twitter click;nbsp
+            p.message To see this tweet on twitter click&nbsp;
               a(href="{{ tweet.link }}", target="_blank") here
             {% endif %}
             p.message Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click 
