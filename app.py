@@ -187,7 +187,7 @@ def feed():
         bodies.append(body)
 
         # TODO: Replace 0.6 with user threshold.
-        moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
+        # moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
         print(moderation)
         rating = rate(body, n_words, p_words)
 
@@ -196,14 +196,15 @@ def feed():
         else:
             is_video = False
 
-        if "error" in moderation:
-            block = False
-            print(moderation["error"])
-            if moderation["error"]["message"] is "Rate limit is exceeded. Try again in 1 seconds.":
-                moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
-        else:
-            # TODO: Replace 0.6 with user threshold.
-            block = moderation["offensive"] > 0.6
+        # if "error" in moderation:
+        #     block = False
+        #     print(moderation["error"])
+        #     if moderation["error"]["message"] is "Rate limit is exceeded. Try again in 1 seconds.":
+        #         moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
+        # else:
+        #     # TODO: Replace 0.6 with user threshold.
+        #     block = moderation["offensive"] > 0.6
+        block = False
 
         if float(rating) > 0:
             overall = "pos"
@@ -219,7 +220,7 @@ def feed():
             "overall": overall,
             "rating": rating,
             "link": link,
-            "moderation": moderation,
+            # "moderation": moderation,
             "is_video": is_video,
             "block": block
         })
