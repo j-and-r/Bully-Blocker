@@ -98,7 +98,7 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
                 "moderation": {
                     "offensive": "an error has occured. This feature is still in beta and is not perfect yet",
                 },
-                "error": "Something has happened."
+                "error": str(result)
             }
         review = result["Classification"]["ReviewRecommended"]
         offensive = result["Classification"]["Category3"]["Score"]
