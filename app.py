@@ -198,6 +198,7 @@ def feed():
 
         if "error" in moderation:
             block = False
+            print(moderation["error"])
         else:
             # TODO: Replace 0.6 with user threshold.
             block = moderation["offensive"] > 0.6

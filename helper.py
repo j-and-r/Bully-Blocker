@@ -109,6 +109,8 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
         rating = ""
         if input_type is "user":
             rating = "is fine to post"
+        else:
+            rating = "not offensive in any way"
 
         if offensive > thresh:
             if terms is None and review:
