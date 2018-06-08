@@ -188,6 +188,7 @@ def feed():
 
         # TODO: Replace 0.6 with user threshold.
         moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
+        print(moderation)
         rating = rate(body, n_words, p_words)
 
         if len(pics) > 0:
