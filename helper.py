@@ -192,10 +192,10 @@ def batch_moderate(batch, key, thresh):
     if "error" in moderation:
         print(moderation["error"])
         if moderation["error"]["message"] == "Rate limit is exceeded. Try again in 1 seconds.":
-            time.sleep(1)
+            time.sleep(1.5)
             print("Rate Limit")
             return batch_moderate(batch, key, thresh)
-        time.sleep(1)
+        time.sleep(1.5)
         return batch_moderate(batch, key, thresh)
         print(moderation["error"]["message"])
     offensive = moderation["offensive"]
