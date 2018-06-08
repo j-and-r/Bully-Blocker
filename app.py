@@ -33,8 +33,6 @@ redis_password = os.environ.get('REDIS_PASSWORD')
 azure_key = os.environ.get('AZURE_KEY')
 hive_key = os.environ.get('HIVE_KEY')
 
-# print(moderate("Hello World!!! Asshole!!!", azure_key))
-
 # Setting up Redis session:
 SESSION_REDIS = redis.StrictRedis(host='redis-10468.c1.us-east1-2.gce.cloud.redislabs.com', port=10468, password=redis_password)
 SESSION_TYPE = 'redis'
@@ -187,8 +185,9 @@ def feed():
         link = "https://twitter.com/statuses/" + tweet.id_str
         body = tweet.text
         bodies.append(body)
-
+        
         # TODO: Replace 0.6 with user threshold.
+        moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
         rating = rate(body, n_words, p_words)
 
         if len(pics) > 0:
@@ -284,7 +283,6 @@ def feed_test():
 
 @app.route("/hive")
 def hive():
-    print(hive_key)
     return jsonify(moderate_hive("Crap", hive_key))
 
 app.run(host="0.0.0.0", port=port, debug=True)
