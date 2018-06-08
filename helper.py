@@ -195,6 +195,7 @@ def batch_moderate(batch, key, thresh):
             time.sleep(1)
             print("Rate Limit")
             return batch_moderate(batch, key, thresh)
+        time.sleep(1)
         return batch_moderate(batch, key, thresh)
         print(moderation["error"]["message"])
     offensive = moderation["offensive"]
