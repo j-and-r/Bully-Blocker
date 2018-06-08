@@ -185,7 +185,7 @@ def feed():
         link = "https://twitter.com/statuses/" + tweet.id_str
         body = tweet.text
         bodies.append(body)
-        
+
         # TODO: Replace 0.6 with user threshold.
         moderation = moderate(body, azure_key, 0.6, return_type="detailed", input_type="feed")
         rating = rate(body, n_words, p_words)
@@ -215,6 +215,7 @@ def feed():
             "overall": overall,
             "rating": rating,
             "link": link,
+            "moderation": moderation,
             "is_video": is_video,
             "block": block
         })
