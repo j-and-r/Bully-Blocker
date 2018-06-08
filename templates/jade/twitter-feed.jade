@@ -25,7 +25,7 @@ html
             p {{ tweet.body }}
             .graph.cf
               .ext(class="{{ tweet.overall }}")
-                .bar(style="width: {{ 100 - (tweet.moderation.offensive * 100) }}%")
+                .bar(style="width: {{ tweet.moderation.percent }}%")
             {% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}
             img.post-img(src="{{ pic }}")
