@@ -242,7 +242,7 @@ def feed():
                     index = i-((batch_size-1)-j)
                     tweets[index]["moderation"] = result["original"]
                     tweets[index]["moderation"]["rating"] = "not offensive in any way."
-        batch = []
+            batch = []
 
     if not batch is []:
         batch_size = len(batch)
