@@ -229,6 +229,8 @@ def feed():
     for i in range(len(bodies)):
         batch.append(bodies[i])
         if i % batch_size is batch_size - 1:
+            batch_size = len(batch)
+            print("Batch Size: {0}".format(batch_size))
             # TODO: Replace 0.6 with user threshold.
             result = batch_moderate(batch, azure_key, 0.6)
             if result["multiple"]:
@@ -243,6 +245,8 @@ def feed():
         batch = []
 
     if not batch is []:
+        batch_size = len(batch)
+        print("Batch Size: {0}".format(batch_size))
         result = batch_moderate(batch, azure_key, 0.6)
         if result["multiple"]:
             for j in range(batch_size):
