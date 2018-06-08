@@ -234,7 +234,7 @@ def feed():
             if result["multiple"]:
                 for j in range(batch_size):
                     index = i-((batch_size-1)-j)
-                    tweets[index]["moderation"] = result[j]
+                    tweets[index]["moderation"] = result["result"][j]
             else:
                 for j in range(batch_size):
                     index = i-((batch_size-1)-j)
@@ -247,7 +247,7 @@ def feed():
         if result["multiple"]:
             for j in range(batch_size):
                 index = i-((batch_size-1)-j)
-                tweets[index]["moderation"] = result[j]
+                tweets[index]["moderation"] = result["result"][j]
         else:
             for j in range(batch_size):
                 index = i-((batch_size-1)-j)
