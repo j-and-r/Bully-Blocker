@@ -309,11 +309,14 @@ def pwd_strength():
 def feed_test():
     feed = json.loads(open("feed.txt", "r").read())
     tweets = []
+    bodies = []
+
     for tweet in feed:
         date = tweet["created_at"]
         username = tweet["user"]["name"]
         profile_pic = tweet["user"]["profile_image_url"]
         body = tweet["text"]
+        bodies.append(body)
         rating = rate(body, n_words, p_words)
         if float(rating) > 0:
             overall = "pos"
@@ -327,6 +330,45 @@ def feed_test():
             "rating": abs(float(rating)),
             "overall": overall
         })
+
+    batch = []
+    batch_size = 3
+    for i in range(len(bodies)):
+        batch.append(bodies[i])
+        if i % batch_size is batch_size - 1:
+            batch_size = len(batch)
+            print("Batch Size: {0}".format(batch_size))
+            # TODO: Replace 0.6 with user threshold.
+            result = batch_moderate(batch, azure_key, 0.6)
+            if result["multiple"]:
+                for j in range(batch_size):
+                    index = i-((batch_size-1)-j)
+                    tweets[index]["moderation"] = result["result"][j]
+                    tweets[index]["moderation"]["percent"] = result["result"][j]["offensive"] * 100
+            else:
+                for j in range(batch_size):
+                    index = i-((batch_size-1)-j)
+                    tweets[index]["moderation"] = result["original"]
+                    tweets[index]["moderation"]["rating"] = "not offensive in any way."
+                    tweets[index]["moderation"]["percent"] = result["original"]["offensive"] * 100
+            batch = []
+
+    if not len(batch) is 0:
+        batch_size = len(batch)
+        print("Batch Size: {0}".format(batch_size))
+        result = batch_moderate(batch, azure_key, 0.6)
+        if result["multiple"]:
+            for j in range(batch_size):
+                index = i-((batch_size-1)-j)
+                tweets[index]["moderation"] = result["result"][j]
+                tweets[index]["moderation"]["percent"] = result["result"][j]["offensive"] * 100
+        else:
+            for j in range(batch_size):
+                index = i-((batch_size-1)-j)
+                tweets[index]["moderation"] = result["original"]
+                tweets[index]["moderation"]["rating"] = "not offensive in any way."
+                tweets[index]["moderation"]["percent"] = result["original"]["offensive"] * 100
+
     return render_template("twitter-feed.html", tweets=tweets)
 
 

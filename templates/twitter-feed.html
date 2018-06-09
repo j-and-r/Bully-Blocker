@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <link rel="stylesheet" href="./static/mdl/material-design-lite.min.css"/>
     <script defer="defer" src="./static/mdl/material.js"></script>
     <link rel="stylesheet" href="./static/feed.min.css"/>
@@ -32,10 +33,8 @@
               <p class="date">{{ tweet.date }}</p>
             </div>
             <p>{{ tweet.body }}</p>
-            <div class="graph cf">
-              <div class="ext {{ tweet.overall }}">
-                <div style="width: {{ tweet.moderation.percent }}%" class="bar"></div>
-              </div>
+            <div style="width: 75%; background-color: #e0e0e0;" class="w3-round-xlarge">
+              <div style="width:{{ tweet.moderation.percent }}%; padding-top:5px; padding-bottom:5px; font-size:12px; background-color:#e25d5d;" class="w3-container w3-round-xlarge"></div>
             </div>{% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
             {% endif %}

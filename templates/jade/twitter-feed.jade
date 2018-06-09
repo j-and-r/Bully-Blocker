@@ -2,6 +2,7 @@
 html
   head
     link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet", href="https://www.w3schools.com/w3css/4/w3.css")
     link(rel="stylesheet", href="./static/mdl/material-design-lite.min.css")
     script(defer, src="./static/mdl/material.js")
     link(rel="stylesheet", href="./static/feed.min.css")
@@ -23,9 +24,10 @@ html
               br
               p.date {{ tweet.date }}
             p {{ tweet.body }}
-            .graph.cf
-              .ext(class="{{ tweet.overall }}")
-                .bar(style="width: {{ tweet.moderation.percent }}%")
+            
+            div.w3-round-xlarge(style="width: 75%; background-color: #e0e0e0;")
+              div.w3-container.w3-round-xlarge(style="width:{{ tweet.moderation.percent }}%; padding-top:5px; padding-bottom:5px; font-size:12px; background-color:#e25d5d;")
+
             {% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}
             img.post-img(src="{{ pic }}")
