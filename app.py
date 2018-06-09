@@ -181,7 +181,7 @@ def feed():
     feed = twitter_feed(auth)
     tweets = []
     bodies = []
-    return jsonify(feed)
+    return str(feed)
 
     with open("feed.json", "w") as f:
         json.dump(feed, f)
