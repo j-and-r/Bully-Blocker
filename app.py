@@ -176,6 +176,12 @@ def feed():
     feed = twitter_feed(auth)
     tweets = []
     bodies = []
+    return jsonify(feed)
+
+    with open("feed.json", "w") as f:
+        json.dump(feed, f)
+        f.close()
+
 
     for tweet in feed:
         pics = twitter_pictures(tweet)
@@ -284,6 +290,8 @@ def feed_test():
 def hive():
     print(hive_key)
     return jsonify(moderate_hive("Crap", hive_key))
+
+
 
 app.run(host="0.0.0.0", port=port, debug=True)
 
