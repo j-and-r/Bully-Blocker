@@ -33,6 +33,8 @@
               <p class="date">{{ tweet.date }}</p>
             </div>
             <p>{{ tweet.body }}</p>
+            <!-- Remove when have getting started page.-->
+            <p style="font-size: 16px;">Web-Es rating (smaller is better):</p>
             <div style="width: 75%; background-color: #e0e0e0;" class="w3-round-xlarge">
               <div style="width:{{ tweet.moderation.percent }}%; padding-top:5px; padding-bottom:5px; font-size:12px; background-color:#e25d5d;" class="w3-container w3-round-xlarge"></div>
             </div>{% if tweet.pics|length > 0 %}
