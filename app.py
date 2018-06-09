@@ -96,7 +96,7 @@ def sign_in():
         password = request.form['password']
         user = sign_in_user(email, password)
         session['user'] = user
-        return redirect('/twitter-feed')
+        return redirect('/loading-feed')
 
 @app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
@@ -112,7 +112,7 @@ def sign_up():
         else:
             user = sign_in_user(email, password)
             session['user'] = user
-            return redirect("/twitter-feed")
+            return redirect("/loading-feed")
 
 @app.route("/logout")
 def logout():
@@ -160,7 +160,12 @@ def twitter_callback():
     session['access_token'] = auth.access_token
     session['access_secret'] = auth.access_token_secret
 
-    return redirect("/twitter-feed")
+    return redirect("/loading-feed")
+
+@app.route("/loading-feed")
+@login_required
+def loading_feed():
+    return render_template("loading-feed.html")
 
 @app.route("/twitter-feed")
 @login_required
@@ -284,7 +289,7 @@ def post():
         if result is not "":
             return result
         else:
-            return redirect("/twitter-feed")
+            return redirect("/loading-feed")
 
 @app.route("/settings")
 @login_required
