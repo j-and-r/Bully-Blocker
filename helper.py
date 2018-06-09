@@ -221,5 +221,5 @@ def single_moderate(text, key, thresh):
     if "error" in moderation:
         if moderation["error"]["statusCode"] == 429:
             time.sleep(1)
-            moderation = single_moderate(batch, key, thresh)
+            moderation = single_moderate(text, key, thresh)
     return moderation
