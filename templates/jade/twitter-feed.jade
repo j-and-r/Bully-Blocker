@@ -54,4 +54,7 @@ html
             a(href="./update-prefs?type='blocked'&author='{{ tweet.username }}'&rating='{{ tweet.moderation.offensive }}") here
         {% endif %}
         {% endfor %}
+        p You have reached the end of your Bully Blocker feed, view the rest 
+          a(href="https://twitter.com") here
+          | .
       include ./components/footer.jade
