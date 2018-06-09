@@ -4,6 +4,7 @@ import firebase_admin
 import json
 import pyrebase
 import requests
+import time
 from firebase_admin import credentials
 from firebase_admin.auth import *
 from functools import wraps
@@ -62,7 +63,6 @@ def rate(tweet, n_words, p_words):
             p_count += 1
     sentiment = p_count - n_count
     ratio = str(round(sentiment/total*100, 1))
-    print(ratio)
     return ratio
 
 def generate_password():
@@ -91,7 +91,6 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
         text = text.encode('utf-8')
         request_url = "https://australiaeast.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true&classify=true"
         result = requests.post(request_url, data=text, headers=headers).json()
-        print(result)
         if not "Classification" in result:
             if return_type is "basic":
                 return "is fine to post."
@@ -100,7 +99,7 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
                 "moderation": {
                     "offensive": "an error has occured. This feature is still in beta and is not perfect yet",
                 },
-                "error": "Something has happened."
+                "error": result
             }
         review = result["Classification"]["ReviewRecommended"]
         offensive = result["Classification"]["Category3"]["Score"]
@@ -110,7 +109,9 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
 
         rating = ""
         if input_type is "user":
-            rating = "is fine to post."
+            rating = "is fine to post"
+        else:
+            rating = "is not offensive in any way"
 
         if offensive > thresh:
             if terms is None and review:
@@ -147,10 +148,10 @@ def moderate(text, key, thresh, return_type="basic", input_type="user"):
             return data
         else:
             return "Invalid return type"
-    except e as Exception:
+    except Exception as e:
         print(e)
         if return_type is "basic":
-            return "is fine to post."
+            return "is fine to post. An error has occured. This is probably because Bully Blocker is still in beta. To report this error click <a href='./report?type=0'>here</a>."
         else:
             return {"error": "An error has occured"}
 
@@ -184,3 +185,41 @@ def moderate_hive(tweets, key):
     url = "http://2hive.org/api/?apikey=" + key + "&data=" + data
     response = requests.get(url).json()
     return response
+
+def batch_moderate(batch, key, thresh):
+    text = ". ".join(batch)
+    moderation = moderate(text, key, thresh, return_type="detailed", input_type="feed")
+    if "error" in moderation:
+        print(moderation["error"]["statusCode"])
+        if moderation["error"]["statusCode"] == 429:
+            time.sleep(1)
+            print("Rate Limit")
+            return batch_moderate(batch, key, thresh)
+        print(moderation["error"]["message"])
+        time.sleep(1)
+        return batch_moderate(batch, key, thresh)
+    offensive = moderation["offensive"]
+    sexual = moderation["sexual"]
+    suggestive = moderation["suggestive"]
+    if offensive > thresh:
+        result = []
+        for text in batch:
+            result.append(single_moderate(text, key, thresh))
+    else:
+        result = "fine"
+    data = {
+        "multiple": not result is "fine",
+        "result": result,
+        "original": moderation
+    }
+    time.sleep(1)
+    return data
+
+def single_moderate(text, key, thresh):
+    print("Single Moderate!!")
+    moderation = moderate(text, key, thresh, return_type="detailed", input_type="feed")
+    if "error" in moderation:
+        if moderation["error"]["statusCode"] == 429:
+            time.sleep(1)
+            moderation = single_moderate(text, key, thresh)
+    return moderation

@@ -34,14 +34,14 @@
             <p>{{ tweet.body }}</p>
             <div class="graph cf">
               <div class="ext {{ tweet.overall }}">
-                <div style="width: {{ 100 - tweet.moderation.offensive * 100 }}%" class="bar"></div>
+                <div style="width: {{ tweet.moderation.percent }}%" class="bar"></div>
               </div>
             </div>{% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}<img src="{{ pic }}" class="post-img"/>{% endfor %}
             {% endif %}
             {% if tweet.is_video %}
             <p class="message">The image above is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;<br/><a href="{{ tweet.link }}">{{ tweet.link }}</a></p>{% else %}
-            <p class="message">To see this tweet on twitter use this link:&nbsp;<br/><a href="{{ tweet.link }}" target="_blank">{{ tweet.link }}</a></p>{% endif %}
+            <p class="message">To see this tweet on twitter click&nbsp;<a href="{{ tweet.link }}" target="_blank">here</a></p>{% endif %}
             <p class="message">Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click <a href="./update-prefs?type='not_blocked'&amp;rating='{{ tweet.moderation.offensive }}'">here</a></p>
           </div>
         </div>{% else %}

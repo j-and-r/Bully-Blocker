@@ -25,7 +25,7 @@ html
             p {{ tweet.body }}
             .graph.cf
               .ext(class="{{ tweet.overall }}")
-                .bar(style="width: {{ 100 - tweet.moderation.offensive * 100 }}%")
+                .bar(style="width: {{ tweet.moderation.percent }}%")
             {% if tweet.pics|length > 0 %}
             {% for pic in tweet.pics %}
             img.post-img(src="{{ pic }}")
@@ -36,9 +36,8 @@ html
               br
               a(href="{{ tweet.link }}") {{ tweet.link }}
             {% else %}
-            p.message To see this tweet on twitter use this link:&nbsp;
-              br
-              a(href="{{ tweet.link }}", target="_blank") {{ tweet.link }}
+            p.message To see this tweet on twitter click&nbsp;
+              a(href="{{ tweet.link }}", target="_blank") here
             {% endif %}
             p.message Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click 
               a(href="./update-prefs?type='not_blocked'&rating='{{ tweet.moderation.offensive }}'") here
