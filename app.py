@@ -333,95 +333,18 @@ def feed_test():
     bodies = []
 
     for tweet in feed:
-        date = tweet["created_at"]
-        username = tweet["user"]["name"]
-        profile_pic = tweet["user"]["profile_image_url"]
-        body = tweet["text"]
-        bodies.append(body)
-        rating = rate(body, n_words, p_words)
         tweets.append({
-            "pics": pics,
-            "date": date,
-            "username": username,
-            "profile_pic": profile_pic,
-            "body": body,
-            "rating": rating,
-            "link": link,
-            # "moderation": moderation,
-            "is_video": is_video,
-            "block": block
+            "pics": tweet["pics"],
+            "date": tweet["date"],
+            "username": tweet["username"],
+            "profile_pic": tweet["profile_pic"],
+            "body": tweet["body"],
+            "rating": tweet["rating"],
+            "link": tweet["link"],
+            "moderation": tweet["moderation"],
+            "is_video": tweet["is_video"],
+            "block": tweet["block"]
         })
-
-    batch = []
-    batch_size = 3
-    for i in range(len(bodies)):
-        batch.append(bodies[i])
-        if i % batch_size is batch_size - 1:
-            batch_size = len(batch)
-            print("Batch Size: {0}".format(batch_size))
-            # TODO: Replace 0.6 with user threshold.
-            result = batch_moderate(batch, azure_key, 0.6)
-            if result["multiple"]:
-                for j in range(batch_size):
-                    index = i-((batch_size-1)-j)
-                    tweets[index]["moderation"] = result["result"][j]
-                    tweets[index]["moderation"]["percent"] = result["result"][j]["offensive"] * 100
-                    offensive = result["result"][j]["offensive"]
-                    if offensive < 0.33:
-                        color = "#5cb85c"
-                    elif offensive < 0.66:
-                        color = "#ecc52c"
-                    else:
-                        color = "#d9534e"
-                    tweets[index]["moderation"]["color"] = color
-            else:
-                for j in range(batch_size):
-                    index = i-((batch_size-1)-j)
-                    tweets[index]["moderation"] = result["original"]
-                    tweets[index]["moderation"]["rating"] = "not offensive in any way."
-                    tweets[index]["moderation"]["percent"] = result["original"]["offensive"] * 100
-                    offensive = result["original"]["offensive"]
-                    if offensive < 0.33:
-                        color = "#5cb85c"
-                    elif offensive < 0.66:
-                        color = "#ecc52c"
-                    else:
-                        color = "#d9534e"
-                    tweets[index]["moderation"]["color"] = color
-
-            batch = []
-
-    if not len(batch) is 0:
-        batch_size = len(batch)
-        print("Batch Size: {0}".format(batch_size))
-        result = batch_moderate(batch, azure_key, 0.6)
-        if result["multiple"]:
-            for j in range(batch_size):
-                index = i-((batch_size-1)-j)
-                tweets[index]["moderation"] = result["result"][j]
-                tweets[index]["moderation"]["percent"] = result["result"][j]["offensive"] * 100
-                offensive = result["result"][j]["offensive"]
-                if offensive < 0.33:
-                    color = "#5cb85c"
-                elif offensive < 0.66:
-                    color = "#ecc52c"
-                else:
-                    color = "#d9534e"
-                tweets[index]["moderation"]["color"] = color
-        else:
-            for j in range(batch_size):
-                index = i-((batch_size-1)-j)
-                tweets[index]["moderation"] = result["original"]
-                tweets[index]["moderation"]["rating"] = "not offensive in any way."
-                tweets[index]["moderation"]["percent"] = result["original"]["offensive"] * 100
-                offensive = result["original"]["offensive"]
-                if offensive < 0.33:
-                    color = "#5cb85c"
-                elif offensive < 0.66:
-                    color = "#ecc52c"
-                else:
-                    color = "#d9534e"
-                tweets[index]["moderation"]["color"] = color
 
     return render_template("twitter-feed.html", tweets=tweets)
 

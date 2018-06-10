@@ -20,7 +20,7 @@
   },
   {
     "pics": [
-      "http://bully-blocker.herokuapp.com/static/images/tesla.jpg"
+      "http://127.0.0.1:5000/static/images/tesla.jpg"
     ],
     "date": "Monday, June 2018",
     "username": "Tesla",
@@ -59,7 +59,7 @@
       "percent": 5,
       "color": "#5cb85c"
     }
-  }
+  },
   {
     "pics": [],
     "date": "Sunday, June 2018",
@@ -69,7 +69,7 @@
     "rating": "is offensive to you and/or others.",
     "link": "https://twitter.com",
     "is_video": 0,
-    "block": 0,
+    "block": 1,
     "moderation": {
       "rating": "is offensive to you and/or others.",
       "offensive": 0.95,

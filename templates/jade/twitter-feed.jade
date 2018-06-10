@@ -46,12 +46,14 @@ html
             p.message Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click 
               a(href="./update-prefs?type='not_blocked'&rating='{{ tweet.moderation.offensive }}'") here
         {% else %}
-        .post.row
-          .post-body
-          p This post has been blocked because it {{ tweet.moderation.rating }}
-          p If you think this post is not what we have predicted please cick here.
-          p If you actually want to see this sort of post click
-            a(href="./update-prefs?type='blocked'&author='{{ tweet.username }}'&rating='{{ tweet.moderation.offensive }}") here
+        .post.row.hide
+          .post-body.blocked
+            strong This post has been blocked because it {{ tweet.moderation.rating }}
+              br 
+              | If you think this post is not what we have predicted please cick here.
+              br
+              | If you actually want to see this sort of post click&nbsp;
+              a(href="./update-prefs?type='blocked'&author='{{ tweet.username }}'&rating='{{ tweet.moderation.offensive }}") here
         {% endif %}
         {% endfor %}
         p You have reached the end of your Bully Blocker feed, view the rest 
