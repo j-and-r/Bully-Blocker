@@ -244,9 +244,9 @@ def feed():
                     tweets[index]["moderation"] = result["result"][j]
                     tweets[index]["moderation"]["percent"] = result["result"][j]["offensive"] * 100
                     offensive = result["result"][j]["offensive"]
-                    if offensive < 0.33:
+                    if offensive < 0.15:
                         color = "#5cb85c"
-                    elif offensive < 0.66:
+                    elif offensive < 0.5:
                         color = "#ecc52c"
                     else:
                         color = "#d9534e"
@@ -258,9 +258,9 @@ def feed():
                     tweets[index]["moderation"]["rating"] = "not offensive in any way."
                     tweets[index]["moderation"]["percent"] = result["original"]["offensive"] * 100
                     offensive = result["original"]["offensive"]
-                    if offensive < 0.33:
+                    if offensive < 0.15:
                         color = "#5cb85c"
-                    elif offensive < 0.66:
+                    elif offensive < 0.5:
                         color = "#ecc52c"
                     else:
                         color = "#d9534e"
