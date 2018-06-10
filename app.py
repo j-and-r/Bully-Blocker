@@ -243,12 +243,28 @@ def feed():
                     index = i-((batch_size-1)-j)
                     tweets[index]["moderation"] = result["result"][j]
                     tweets[index]["moderation"]["percent"] = result["result"][j]["offensive"] * 100
+                    offensive = result["result"][j]["offensive"]
+                    if offensive < 0.33:
+                        color = "#5cb85c"
+                    elif offensive < 0.66:
+                        color = "#ecc52c"
+                    else:
+                        color = "#d9534e"
+                    tweets[index]["moderation"]["color"] = color
             else:
                 for j in range(batch_size):
                     index = i-((batch_size-1)-j)
                     tweets[index]["moderation"] = result["original"]
                     tweets[index]["moderation"]["rating"] = "not offensive in any way."
                     tweets[index]["moderation"]["percent"] = result["original"]["offensive"] * 100
+                    offensive = result["original"]["offensive"]
+                    if offensive < 0.33:
+                        color = "#5cb85c"
+                    elif offensive < 0.66:
+                        color = "#ecc52c"
+                    else:
+                        color = "#d9534e"
+                    tweets[index]["moderation"]["color"] = color
             batch = []
 
     if not len(batch) is 0:
@@ -260,12 +276,28 @@ def feed():
                 index = i-((batch_size-1)-j)
                 tweets[index]["moderation"] = result["result"][j]
                 tweets[index]["moderation"]["percent"] = result["result"][j]["offensive"] * 100
+                offensive = result["result"][j]["offensive"]
+                if offensive < 0.33:
+                    color = "#5cb85c"
+                elif offensive < 0.66:
+                    color = "#ecc52c"
+                else:
+                    color = "#d9534e"
+                tweets[index]["moderation"]["color"] = color
         else:
             for j in range(batch_size):
                 index = i-((batch_size-1)-j)
                 tweets[index]["moderation"] = result["original"]
                 tweets[index]["moderation"]["rating"] = "not offensive in any way."
                 tweets[index]["moderation"]["percent"] = result["original"]["offensive"] * 100
+                offensive = result["original"]["offensive"]
+                if offensive < 0.33:
+                    color = "#5cb85c"
+                elif offensive < 0.66:
+                    color = "#ecc52c"
+                else:
+                    color = "#d9534e"
+                tweets[index]["moderation"]["color"] = color
 
     return render_template("twitter-feed.html", tweets=tweets)
 
