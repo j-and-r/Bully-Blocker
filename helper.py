@@ -82,6 +82,14 @@ def twitter_pictures(status):
 
     return media_files
 
+def twitter_pictures(status):
+    media_files = set()
+    media = status["entities"]["media"]
+    if(len(media) > 0):
+        media_files.add(media[0]['media_url'])
+
+    return media_files
+
 def moderate(text, key, thresh, return_type="basic", input_type="user"):
     try:
         headers = {
