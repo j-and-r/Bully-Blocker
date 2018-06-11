@@ -239,6 +239,8 @@ def feed():
                         color = "#ecc52c"
                     else:
                         color = "#d9534e"
+                    # Replace with thresh
+                    tweets[index]["block"] = offensive > 0.6
                     tweets[index]["moderation"]["color"] = color
             else:
                 for j in range(batch_size):
@@ -253,6 +255,8 @@ def feed():
                         color = "#ecc52c"
                     else:
                         color = "#d9534e"
+                    # Replace with thresh
+                    tweets[index]["block"] = offensive > 0.6
                     tweets[index]["moderation"]["color"] = color
             batch = []
 
@@ -272,6 +276,8 @@ def feed():
                     color = "#ecc52c"
                 else:
                     color = "#d9534e"
+                # Replace with thresh
+                tweets[index]["block"] = offensive > 0.6
                 tweets[index]["moderation"]["color"] = color
         else:
             for j in range(batch_size):
@@ -286,6 +292,8 @@ def feed():
                     color = "#ecc52c"
                 else:
                     color = "#d9534e"
+                # Replace with thresh
+                tweets[index]["block"] = offensive > 0.6
                 tweets[index]["moderation"]["color"] = color
 
     return render_template("twitter-feed.html", tweets=tweets)
