@@ -2,14 +2,17 @@
 html
   head
     link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
-    link(rel="stylesheet", href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css")
-    script(defer, src="https://code.getmdl.io/1.3.0/material.min.js")
+    link(rel="stylesheet", href="./static/mdl/material.min.css")
+    script(defer, src="./static/mdl/material.min.js")
     link(rel="stylesheet", href="./static/index.min.css")
+    link(rel="stylesheet", href="./static/about.min.css")
     title About
-  body
+  div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
     include ./components/nav.jade
-    .wrap
-      h1 About the product
-      p our sevice is to get the best out of social media at the same time as staying safe and raising awarness of cyber bullying
-      h1 About the creators
-    include ./components/footer.jade
+    main.mdl-layout__content
+      .wrap
+        h5 About the product
+        p our sevice is to get the best out of social media at the same time as staying safe and raising awarness of cyber bullying
+        h5 Creators:
+        p Created by Rohan Van Klinken and Joshua Whitmore.
+      include ./components/footer.jade
