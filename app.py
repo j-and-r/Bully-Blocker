@@ -93,7 +93,9 @@ def about():
 
 @app.route("/getting-started")
 def getting_started():
-    logged_in = 'user' in session or not session['user'] is None
+    logged_in = 'user' in session
+    if logged_in:
+        logged_in = not session['user'] is None
     return render_template("getting-started.html", logged_in=logged_in)
 
 @app.route("/sign-in", methods=["GET", "POST"])
