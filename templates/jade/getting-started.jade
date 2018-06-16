@@ -1,0 +1,32 @@
+//output:../getting-started.html
+html
+  head
+    link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet", href="./static/mdl/material.min.css")
+    script(defer, src="./static/mdl/material.min.js")
+    link(rel="stylesheet", href="./static/index.min.css")
+    link(rel="stylesheet", href="./static/getting-started.min.css")
+    title Bully Blocker
+    
+  div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+    {% if logged_in %}
+    include ./components/signed-in-nav.jade
+    {% else %}
+    include ./components/nav.jade
+    {% endif %}
+    main.mdl-layout__content
+      .wrap
+        h1 Getting Started
+        .step#step-1
+          p.title Step 1
+          p.description Create Account
+          hr
+          p.how To create an account first make sure you have a Twitter account and then click&nbsp;
+            a(href="./sign-up") here
+        .step#step-2
+          p.title Step 2
+          p.description Authorise Twitter
+          hr
+          p.how To access your Twitter feed and post from Bully Blocker you need to authorise us to access your Twitter feed. To do so click&nbsp;
+            a(href="./twitter-auth") here
+      include ./components/footer.jade

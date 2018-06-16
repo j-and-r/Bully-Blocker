@@ -1,4 +1,4 @@
-from flask import Flask, Response, render_template, redirect, session, request, jsonify
+from flask import Flask, Response, render_template, redirect, session, request, jsonify, send_file
 from flask_session import Session
 from flask_cors import CORS
 import tweepy
@@ -68,6 +68,10 @@ def login_required(f):
         return f(*args, **kws)
     return decorated_function
 
+@app.route("/humans.txt")
+def humans():
+    return send_file("./static/humans.txt")
+
 # API routes
 
 @app.route("/moderate", methods=["GET"])
@@ -86,6 +90,11 @@ def index():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/getting-started")
+def getting_started():
+    logged_in = 'user' in session or not session['user'] is None
+    return render_template("getting-started.html", logged_in=logged_in)
 
 @app.route("/sign-in", methods=["GET", "POST"])
 def sign_in():
@@ -112,7 +121,7 @@ def sign_up():
         else:
             user = sign_in_user(email, password)
             session['user'] = user
-            return redirect("/loading-feed")
+            return redirect("/getting-started")
 
 @app.route("/logout")
 def logout():
@@ -121,11 +130,6 @@ def logout():
     return redirect("/sign-in")
 
 # Front end for logged in users:
-
-@app.route("/setup")
-@login_required
-def setup():
-    return render_template("setup.html")
 
 @app.route("/twitter-auth")
 @login_required
