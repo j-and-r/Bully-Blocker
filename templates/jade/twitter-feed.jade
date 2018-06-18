@@ -44,7 +44,7 @@ html
               a(href="{{ tweet.link }}", target="_blank") here
             {% endif %}
             p.message Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click 
-              a(href="./update-prefs?type='not_blocked'&rating='{{ tweet.moderation.offensive }}'") here
+              a(href="./settings") here
         {% else %}
         .post.row.hide
           .post-body.blocked
@@ -53,7 +53,7 @@ html
               | If you think this post is not what we have predicted please cick here.
               br
               | If you actually want to see this sort of post click&nbsp;
-              a(href="./update-prefs?type='blocked'&author='{{ tweet.username }}'&rating='{{ tweet.moderation.offensive }}") here
+              a(href="./settings") here
         {% endif %}
         {% endfor %}
         p You have reached the end of your Bully Blocker feed, view the rest 

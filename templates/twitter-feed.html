@@ -43,11 +43,11 @@
             {% if tweet.is_video %}
             <p class="message">The image above is supposed to be a video but Twitter does not give Bully Blocker access to this functionality. To see the video visit this link:&nbsp;<br/><a href="{{ tweet.link }}">{{ tweet.link }}</a></p>{% else %}
             <p class="message">To see this tweet on twitter click&nbsp;<a href="{{ tweet.link }}" target="_blank">here</a></p>{% endif %}
-            <p class="message">Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click <a href="./update-prefs?type='not_blocked'&amp;rating='{{ tweet.moderation.offensive }}'">here</a></p>
+            <p class="message">Web-E thinks this post {{ tweet.moderation.rating }} If you think otherwise, please click <a href="./settings">here</a></p>
           </div>
         </div>{% else %}
         <div class="post row hide">
-          <div class="post-body blocked"><strong>This post has been blocked because it {{ tweet.moderation.rating }}<br/>If you think this post is not what we have predicted please cick here.<br/>If you actually want to see this sort of post click&nbsp;<a href="./update-prefs?type='blocked'&amp;author='{{ tweet.username }}'&amp;rating='{{ tweet.moderation.offensive }}">here</a></strong></div>
+          <div class="post-body blocked"><strong>This post has been blocked because it {{ tweet.moderation.rating }}<br/>If you think this post is not what we have predicted please cick here.<br/>If you actually want to see this sort of post click&nbsp;<a href="./settings">here</a></strong></div>
         </div>{% endif %}
         {% endfor %}
         <p>You have reached the end of your Bully Blocker feed, view the rest <a href="https://twitter.com">here</a>.</p>
@@ -56,7 +56,7 @@
       <div class="footer">
         <div class="content">
           <p><a href="/about">About</a>  |  <a href="/index">Home</a>  |  <a href="/sign-in">Sign In</a>  | <a href="/sign-up">Sign Up </a>
-            <div class="copyright">Copyright (c) 2018 Bully Blocker All Rights Reserved.</div>
+            <div class="copyright">Created by Rohan van Klinken and Joshua Whitmore</div>
           </p>
         </div>
       </div>
