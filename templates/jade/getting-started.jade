@@ -9,11 +9,7 @@ html
     title Bully Blocker
     
   div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
-    {% if logged_in %}
-    include ./components/signed-in-nav.jade
-    {% else %}
     include ./components/nav.jade
-    {% endif %}
     main.mdl-layout__content
       .wrap
         h1 Getting Started
