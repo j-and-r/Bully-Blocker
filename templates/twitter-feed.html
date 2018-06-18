@@ -47,7 +47,7 @@
           </div>
         </div>{% else %}
         <div class="post row hide">
-          <div class="post-body blocked"><strong>This post has been blocked because it {{ tweet.moderation.rating }}<br/>If you think this post is not what we have predicted please cick here.<br/>To change the threshold we use to block content click&nbsp;<a href="./settings">here</a>To see this tweet on twitter click&nbsp;<a href="{{ tweet.link }}" target="_blank">here</a></strong></div>
+          <div class="post-body blocked"><strong>This post has been blocked because it {{ tweet.moderation.rating }}<br/>To see this tweet on twitter click&nbsp;<a href="{{ tweet.link }}" target="_blank">here</a><br/>To change the threshold we use to block content click&nbsp;<a href="./settings">here</a></strong></div>
         </div>{% endif %}
         {% endfor %}
         <p>You have reached the end of your Bully Blocker feed, view the rest <a href="https://twitter.com">here</a>.</p>
