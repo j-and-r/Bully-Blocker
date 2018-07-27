@@ -190,11 +190,11 @@ def batch_moderate(batch, key, thresh):
     text = ". ".join(batch)
     moderation = moderate(text, key, thresh, return_type="detailed", input_type="feed")
     if "error" in moderation:
-        print(moderation["error"]["statusCode"])
-        if moderation["error"]["statusCode"] == 429:
-            time.sleep(1)
-            print("Rate Limit")
-            return batch_moderate(batch, key, thresh)
+        # print(moderation["error"]["statusCode"])
+        # if moderation["error"]["statusCode"] == 429:
+        #     time.sleep(1)
+        #     print("Rate Limit")
+        #     return batch_moderate(batch, key, thresh)
         print(moderation["error"]["message"])
         time.sleep(1)
         return batch_moderate(batch, key, thresh)
