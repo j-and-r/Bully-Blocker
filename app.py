@@ -72,6 +72,10 @@ def login_required(f):
 def humans():
     return send_file("./static/humans.txt")
 
+# @app.route("/favicon.ico")
+# def favicon():
+#     return send_file("./static/favicon.ico")
+
 # API routes
 
 @app.route("/moderate", methods=["GET"])
@@ -130,6 +134,8 @@ def logout():
     if 'user' in session and session['user'] is not None:
         session['user'] = None
     return redirect("/sign-in")
+
+
 
 # Front end for logged in users:
 
